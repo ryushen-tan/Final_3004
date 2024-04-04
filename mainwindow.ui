@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1301</width>
-    <height>563</height>
+    <width>1872</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -122,7 +122,7 @@
    <widget class="QLCDNumber" name="lcdNumber">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>720</x>
       <y>400</y>
       <width>71</width>
       <height>23</height>
@@ -220,13 +220,26 @@
      <string>Contact</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_9">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>80</y>
+      <width>451</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OKAY</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1301</width>
+     <width>1872</width>
      <height>22</height>
     </rect>
    </property>
