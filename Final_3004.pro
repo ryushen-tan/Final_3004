@@ -13,17 +13,19 @@ SOURCES += \
     EEGHeadset.cpp \
     EEGSignal.cpp \
     EEGSite.cpp \
+    Session.cpp \
+    SessionInfo.cpp \
     main.cpp \
-    mainwindow.cpp \
-    session.cpp
+    mainwindow.cpp
 
 HEADERS += \
     Device.h \
     EEGHeadset.h \
     EEGSignal.h \
     EEGSite.h \
-    mainwindow.h \
-    session.h
+    Session.h \
+    SessionInfo.h \
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
