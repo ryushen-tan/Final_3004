@@ -7,12 +7,13 @@
 
 class EEGSite {
 public:
-    EEGSignal delta;
-    EEGSignal theta;
-    EEGSignal alpha;
-    EEGSignal beta;
+    EEGSite();
 
-    QVector<double> getCombinedWave() const;
+    EEGSignal* delta;
+    EEGSignal* theta;
+    EEGSignal* alpha;
+    EEGSignal* beta;
+    EEGSignal* EEGCombinedWave;
 
 };
 

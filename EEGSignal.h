@@ -6,11 +6,12 @@
 class EEGSignal {
 public:
     EEGSignal(int, int);
+    QVector<double> signalData;
+
 
 private:
     int samplingRateHz;
     int sampleDuration;
-    QVector<double> signalData;
 };
 
 #endif // EEGSIGNAL_H
