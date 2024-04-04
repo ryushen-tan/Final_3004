@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#define SAMPLING_RATE 60
+#define SAMPLE_DURATION 60
+
 #include <QMainWindow>
 
 #include "Device.h"

@@ -10,13 +10,17 @@ CONFIG += c++11
 
 SOURCES += \
     Device.cpp \
+    EEGHeadset.cpp \
     EEGSignal.cpp \
+    EEGSite.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Device.h \
+    EEGHeadset.h \
     EEGSignal.h \
+    EEGSite.h \
     mainwindow.h
 
 FORMS += \

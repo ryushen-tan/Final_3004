@@ -7,12 +7,10 @@ class EEGSignal {
 public:
     EEGSignal(int, int);
 
-    double& operator[](int index) { return data[index]; }
-
 private:
     int samplingRateHz;
     int sampleDuration;
-    QVector<double> data;
+    QVector<double> signalData;
 };
 
 #endif // EEGSIGNAL_H
