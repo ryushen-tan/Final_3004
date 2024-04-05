@@ -16,7 +16,7 @@ private:
 
 public:
     Session();
-bool isPaused();
+    bool isPaused();
     void pause();
     void unPause();
     int getSessionLength();

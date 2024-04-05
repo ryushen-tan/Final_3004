@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #define SAMPLING_RATE 60
-#define SAMPLE_DURATION 60
+#define SAMPLE_DURATION 6
 
 #include <QMainWindow>
 
