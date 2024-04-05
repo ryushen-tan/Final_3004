@@ -10,7 +10,7 @@ class Device {
 public:
     Device();
     ~Device();
-
+    //ellie was here :D this is a test
 
     QDateTime currTime;
     QVector<Session*> savedSessions;

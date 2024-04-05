@@ -13,6 +13,8 @@ SOURCES += \
     EEGHeadset.cpp \
     EEGSignal.cpp \
     EEGSite.cpp \
+    Session.cpp \
+    SessionInfo.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -21,6 +23,8 @@ HEADERS += \
     EEGHeadset.h \
     EEGSignal.h \
     EEGSite.h \
+    Session.h \
+    SessionInfo.h \
     mainwindow.h
 
 FORMS += \
