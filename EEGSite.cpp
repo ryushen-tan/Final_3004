@@ -33,15 +33,17 @@ void EEGSite::generateSignal()
     signalGenerator->setDeltaAmplitude(deltaAmp);
 
 
-    void EEGSite::stopSignalGeneration()
-    {
-
-    }   signalGenerator->setThetaAmplitude(thetaAmp);
+    signalGenerator->setThetaAmplitude(thetaAmp);
     signalGenerator->setAlphaAmplitude(alphaAmp);
     signalGenerator->setBetaAmplitude(betaAmp);
 
     // Start generating signals
     signalGenerator->start();
+}
+
+void EEGSite::stopSignalGeneration()
+{
+    signalGenerator->stop();
 }
 
 void EEGSite::handleSignal(double signal)
@@ -63,18 +65,4 @@ double EEGSite::getRandomInRange(double min, double max)
 
    // Return the random frequency within the target frequency range
    return max + (random * range);
-}
-
-double EEGSite::calculateDominantFrequency(double deltaAmp, double thetaAmp, double alphaAmp, double betaAmp, double deltaFreq, double thetaFreq, double alphaFreq, double betaFreq)
-{
-    // Calculate the dominant frequency
-    double dominantFreq = (deltaFreq * deltaAmp^2 + thetaFreq * thetaAmp^2 + alphaFreq * alphaAmp^2 + betaFreq * betaAmp^2) / (deltaAmp^2 + thetaAmp^2 + alphaAmp^2 + betaAmp^2);
-
-    return dominantFreq;
-}
-
-void EEGSite::applyOffset(double dominantFreq, double offset)
-{
-    // Apply the offset to the dominant frequency in signal generator
-
 }
