@@ -92,6 +92,11 @@ void SignalGenerator::start()
     timer->start(1000 / sampleRateHz); // Updates based on sample rate
 }
 
+void SignalGenerator::stop()
+{
+    timer->stop();
+}
+
 void SignalGenerator::generateEEGSignal() {
     // Generate signal for each frequency band
     double delta = deltaAmp * sin(2 * M_PI * deltaFreq * currTime);
