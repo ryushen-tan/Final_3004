@@ -2,12 +2,12 @@
 
 SignalGenerator::SignalGenerator(QObject *parent):
     QObject(parent),
+    currTime(0.0),
     sampleRateHz(60),
     deltaAmp(1.0),
     thetaAmp(1.0),
     alphaAmp(1.0),
     betaAmp(1.0),
-    currTime(0.0),
     deltaFreq(2.0),
     thetaFreq(6.0),
     alphaFreq(10.0),
@@ -65,6 +65,16 @@ void SignalGenerator::setDeltaAmplitude(double amp)
 void SignalGenerator::setThetaAmplitude(double amp)
 {
     thetaAmp = amp;
+}
+
+void SignalGenerator::setAlphaAmplitude(double amp)
+{
+    alphaAmp = amp;
+}
+
+void SignalGenerator::setBetaAmplitude(double amp)
+{
+    betaAmp = amp;
 }
 
 void SignalGenerator::setDeltaFrequency(double freq)

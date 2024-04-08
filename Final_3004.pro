@@ -11,7 +11,6 @@ CONFIG += c++11
 SOURCES += \
     Device.cpp \
     EEGHeadset.cpp \
-    EEGSignal.cpp \
     EEGSite.cpp \
     Session.cpp \
     SessionInfo.cpp \
@@ -22,7 +21,6 @@ SOURCES += \
 HEADERS += \
     Device.h \
     EEGHeadset.h \
-    EEGSignal.h \
     EEGSite.h \
     Session.h \
     SessionInfo.h \

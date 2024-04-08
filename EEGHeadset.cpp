@@ -13,8 +13,11 @@ EEGHeadset::EEGHeadset(int rate, int duration):
 
 void EEGHeadset::generateSignals()
 {
+    // To Test
     sites[0]->generateSignal();
-    // for (int i = 0; i < EEG_SITES; ++i) {
-    //     sites[i]->generateSignal();
-    // }
+
+// Will probably need to look into threads later on to generate all 7 sites signal
+//    for (int i = 0; i < EEG_SITES; ++i) {
+//        sites[i]->generateSignal();
+//    }
 }
