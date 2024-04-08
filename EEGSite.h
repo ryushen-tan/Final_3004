@@ -26,6 +26,7 @@ private:
     double dominantFreq;  // To store the dominant frequency
 
     double calculateDominantFrequency(double, double, double, double, double, double, double, double);
+    double getDominantFrequency();
     void applyOffset(double, double);
 
     double getRandomInRange(double, double);

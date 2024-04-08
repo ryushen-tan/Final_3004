@@ -67,12 +67,19 @@ double EEGSite::getRandomInRange(double min, double max)
    return max + (random * range);
 }
 
-double calculateDominantFrequency(double deltaAmp, double thetaAmp, double alphaAmp, double betaAmp, double deltaFreq, double thetaFreq, double alphaFreq, double betaFreq)
+double EEGSite::getDominantFrequency()
+{
+    dominantFreq = calculateDominantFrequency(signalGenerator->getDeltaAmplitude(), signalGenerator->getThetaAmplitude(), signalGenerator->getAlphaAmplitude(), signalGenerator->getBetaAmplitude(), signalGenerator->getDeltaFrequency(), signalGenerator->getThetaFrequency(), signalGenerator->getAlphaFrequency(), signalGenerator->getBetaFrequency());
+    return dominantFreq;
+}
+
+
+double EEGSite::calculateDominantFrequency(double deltaAmp, double thetaAmp, double alphaAmp, double betaAmp, double deltaFreq, double thetaFreq, double alphaFreq, double betaFreq)
 {
     return (deltaFreq * deltaAmp^2 + thetaFreq * thetaAmp^2 + alphaFreq * alphaAmp^2 + betaFreq * betaAmp^2) / (deltaAmp^2 + thetaAmp^2 + alphaAmp^2 + betaAmp^2);
 }
 
-void applyOffset(double offset, double dominantFreq)
+void EEGSite::applyOffset(double offset, double dominantFreq)
 {
     // apply offset to the dominant frequency in the EEG signal
 }
