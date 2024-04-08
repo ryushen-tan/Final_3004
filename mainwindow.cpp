@@ -8,11 +8,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     device = new Device();
+    headset = new EEGHeadset(SAMPLING_RATE, SAMPLE_DURATION);
+
 //    ui->menu->setDisabled(true);
 //    ui->menuView->setDisabled(true);
 //    ui->timeAndDateView->setDisabled(true);
 //    ui->sessionLogsView->setDisabled(true);
 //    ui->newSessionView->setDisabled(true);
+
+    // Connections
+    connect(ui->generateSignal, &QPushButton::clicked, this, &MainWindow::on_generateSignal_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -147,6 +152,9 @@ void MainWindow::on_noBattery_clicked()
 void MainWindow::on_generateSignal_clicked()
 {
     //generate EEG signal, aka put on headset? or do we also have a connect headset button?
+
+    // Calling generate signal function in EEGHeadset to test
+    headset->generateSignals();
 }
 
 

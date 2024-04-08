@@ -15,6 +15,7 @@ SOURCES += \
     EEGSite.cpp \
     Session.cpp \
     SessionInfo.cpp \
+    SignalGenerator.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -25,6 +26,7 @@ HEADERS += \
     EEGSite.h \
     Session.h \
     SessionInfo.h \
+    SignalGenerator.h \
     mainwindow.h
 
 FORMS += \
