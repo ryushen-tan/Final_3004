@@ -3,6 +3,8 @@
 * Ellie Ng - wisdomlesstooths
 * Ryushen Tan - ryushen-tan
 * William Yin - water-fleas
-* Stephen Mamosian -
-* Mike Lin - maiku3
+* Stephen Mamosian - TheSlenk
+* Mike Lin - Maiku3
+
+* TA: Anjali
 ## File Organization
