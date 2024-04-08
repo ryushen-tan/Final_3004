@@ -24,14 +24,28 @@ public:
     SignalGenerator(QObject *parent = nullptr);
 
     // Will probably need this to get frequency for analysis
-    double getFrequency();
-    double getAmplitude();
+    double getDeltaAmplitude();
+    double getThetaAmplitude();
+    double getAlphaAmplitude();
+    double getBetaAmplitude();
+    
+    double getDeltaFrequency();
+    double getThetaFrequency();
+    double getAlphaFrequency();
+    double getBetaFrequency();
+
+    // Setters for amplitudes
+    void setDeltaAmplitude(double);
+    void setThetaAmplitude(double);
+    void setAlphaAmplitude(double);
+    void setBetaAmplitude(double);
 
     // Setters for frequencies
     void setDeltaFrequency(double);
     void setThetaFrequency(double);
     void setAlphaFrequency(double);
     void setBetaFrequency(double);
+
 
     // Start and stop generating EEG signal
     void start();
@@ -49,7 +63,12 @@ private:
 
     double currTime;
     int sampleRateHz;
-    int amplitude;
+    
+    // Amplitude for each band
+    double deltaAmp;
+    double thetaAmp;
+    double alphaAmp;
+    double betaAmp;
 
     // Frequencies for each band
     double deltaFreq;

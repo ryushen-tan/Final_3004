@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QVector>
-#include "signalgenerator.h" // Assume you have signalgenerator.h
+#include <QRandomGenerator>
+#include "SignalGenerator.h"
 
 class EEGSite : public QObject
 {
@@ -11,6 +12,7 @@ class EEGSite : public QObject
 public:
     EEGSite();
     void generateSignal();
+    void stopSignalGeneration();
 
 signals:
     void signalGenerated(double value);
@@ -20,11 +22,13 @@ private slots:
 
 private:
     QVector<double> *EEGSignalBuffer;
-    SignalGenerator signalGenerator;
+    SignalGenerator* signalGenerator;
     double dominantFreq;  // To store the dominant frequency
 
-    double calculateDominantFrequency(const QVector<double> *buffer);
-    double applyTreatment(double, double);
+    double calculateDominantFrequency(double, double, double, double, double, double, double, double);
+    void applyOffset(double, double);
+
+    double getRandomInRange(double, double);
 };
 
 #endif // EEGSITE_H
