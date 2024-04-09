@@ -31,8 +31,6 @@ void EEGSite::generateSignal()
 
     // Configure the SignalGenerator's amplitudes
     signalGenerator->setDeltaAmplitude(deltaAmp);
-
-
     signalGenerator->setThetaAmplitude(thetaAmp);
     signalGenerator->setAlphaAmplitude(alphaAmp);
     signalGenerator->setBetaAmplitude(betaAmp);
@@ -76,7 +74,7 @@ double EEGSite::getDominantFrequency()
 
 double EEGSite::calculateDominantFrequency(double deltaAmp, double thetaAmp, double alphaAmp, double betaAmp, double deltaFreq, double thetaFreq, double alphaFreq, double betaFreq)
 {
-    return (deltaFreq * deltaAmp^2 + thetaFreq * thetaAmp^2 + alphaFreq * alphaAmp^2 + betaFreq * betaAmp^2) / (deltaAmp^2 + thetaAmp^2 + alphaAmp^2 + betaAmp^2);
+    return (deltaFreq * pow(deltaAmp, 2) + thetaFreq * pow(thetaAmp, 2) + alphaFreq * pow(alphaAmp, 2) + betaFreq * pow(betaAmp, 2)) / (pow(deltaAmp, 2) + pow(thetaAmp, 2) + pow(alphaAmp, 2) + pow(betaAmp, 2));
 }
 
 void EEGSite::applyOffset(double offset, double dominantFreq)
