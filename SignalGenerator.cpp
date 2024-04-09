@@ -121,7 +121,7 @@ void SignalGenerator::generateEEGSignal() {
     currTime += 1.0 / sampleRateHz;
 
     // Testing
-    qDebug() << EEGSignal;
+    //qDebug() << EEGSignal;
 
     // Emit the generated sine wave value
     emit signalGenerated(EEGSignal);
