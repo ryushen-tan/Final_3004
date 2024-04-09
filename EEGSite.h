@@ -1,19 +1,54 @@
 #ifndef EEGSITE_H
 #define EEGSITE_H
 
+#include <QObject>
 #include <QVector>
+#include <QRandomGenerator>
+#include <QDebug>
+#include "SignalGenerator.h"
 
-#include "EEGSignal.h"
+/* Purpose of class: EEGSite to generate an EEG signal for a specific site
+ *
+ * Data Members:
+ * - QVector<double>* EEGSignalBuffer: A buffer to store the EEG signal
+ * - SignalGenerator* signalGenerator: A SignalGenerator object to generate the EEG signal
+ * - double dominantFreq: To store the dominant frequency
+ *
+ * Class functions:
+ * - EEGSite(): Constructor to initialize the EEGSite object
+ * - generateSignal(): To generate the EEG signal
+ * - stopSignalGeneration(): To stop the signal generation
+ * - signalGenerated(double): Slot to handle the signal generated
+ * - calculateDominantFrequency(double, double, double, double, double, double, double, double): To calculate the dominant frequency
+ * - getDominantFrequency(): To get the dominant frequency
+ * - applyOffset(double, double): To apply an offset to the signal for treatment
+ * - getRandomInRange(double, double): Helper function to get a random number in a range
+ */
 
-class EEGSite {
+class EEGSite : public QObject
+{
+    Q_OBJECT
 public:
-    EEGSignal delta;
-    EEGSignal theta;
-    EEGSignal alpha;
-    EEGSignal beta;
+    EEGSite();
+    void generateSignal();
+    void stopSignalGeneration();
 
-    QVector<double> getCombinedWave() const;
+signals:
+    void signalGenerated(double value);
 
+private slots:
+    void handleSignal(double);
+
+private:
+    QVector<double> *EEGSignalBuffer;
+    SignalGenerator* signalGenerator;
+    double dominantFreq;  // To store the dominant frequency
+
+    double calculateDominantFrequency(double, double, double, double, double, double, double, double);
+    double getDominantFrequency();
+    void applyOffset(double, double);
+
+    double getRandomInRange(double, double);
 };
 
 #endif // EEGSITE_H
