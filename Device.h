@@ -10,7 +10,6 @@ class Device {
 public:
     Device();
     ~Device();
-    //ellie was here :D this is a test
 
     QDateTime currTime;
     QVector<Session*> savedSessions;
@@ -25,7 +24,7 @@ public:
     void calculateDominantFreq();
     void applyTreatment();
 
-    void setBattery();
+    void setBattery(int);
 
 private:
     QVector<QString> currSeshInfo;

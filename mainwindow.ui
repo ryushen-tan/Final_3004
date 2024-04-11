@@ -24,34 +24,8 @@
      </rect>
     </property>
     <property name="title">
-     <string>Admin View</string>
+     <string>Admin &amp; Test View</string>
     </property>
-    <widget class="QLineEdit" name="testBattery">
-     <property name="geometry">
-      <rect>
-       <x>540</x>
-       <y>40</y>
-       <width>113</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Battery Level</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QSpinBox" name="percentage">
-     <property name="geometry">
-      <rect>
-       <x>660</x>
-       <y>40</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QGroupBox" name="groupBox">
      <property name="geometry">
       <rect>
@@ -120,22 +94,6 @@ with PC</string>
       </layout>
      </widget>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>40</y>
-       <width>141</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Admin - Device Test</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QTextBrowser" name="textBrowser">
      <property name="geometry">
       <rect>
@@ -149,8 +107,8 @@ with PC</string>
     <widget class="QPushButton" name="contact">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>70</y>
+       <x>50</x>
+       <y>90</y>
        <width>83</width>
        <height>25</height>
       </rect>

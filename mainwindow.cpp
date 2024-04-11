@@ -131,21 +131,21 @@ void MainWindow::on_connectPc_toggled(bool checked)
 void MainWindow::on_maxBattery_clicked()
 {
     ui->battery->setValue(100);
-    // this ^ is bandaid "fix", call setBattery function
+    device->setBattery(100);
 }
 
 
 void MainWindow::on_lowBattery_clicked()
 {
-    ui->battery->setValue(10);
-    // this ^ is bandaid "fix", call setBattery function
+    ui->battery->setValue(39);
+    device->setBattery(39);
 }
 
 
 void MainWindow::on_noBattery_clicked()
 {
     ui->battery->setValue(0);
-    // this ^ is bandaid "fix", call setBattery function
+    device->setBattery(0);
 }
 
 
