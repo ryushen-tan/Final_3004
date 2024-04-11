@@ -1,12 +1,17 @@
 #include "Device.h"
 
-Device::Device() :
+Device::Device(MainWindow* mw) :
     currTime(QDateTime::currentDateTime()),
     batteryLevel(100), //
-    currentlyOn(false),
+    powerStatus(false),
     hasContact(false)
 {
+    mainWindow = mw;
 
+    for (int i = 0; i < EEG_SITES; i++)
+    {
+        sites.append(new EEGSite());
+    }
 }
 
 Device::~Device() {
@@ -43,5 +48,19 @@ void Device::setBattery(int charge)
     {
         //low power message... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
         std::cout << "ATTENTION: low power! Please charge device. 40% minimum needed for a new session.\n" << std::endl;
+    }
+}
+
+void Device::initiateContact()
+{
+    hasContact = true;
+    generateSignals();
+}
+
+void Device::generateSignals()
+{
+    for (int i = 0; i < EEG_SITES; i++)
+    {
+        sites[i]->generateSignal();
     }
 }
