@@ -7,8 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    device = new Device();
-    headset = new EEGHeadset(SAMPLING_RATE, SAMPLE_DURATION);
+    device = new Device(this);
+
+    series = new QLineSeries();
 
 //    ui->menu->setDisabled(true);
 //    ui->menuView->setDisabled(true);
@@ -152,7 +153,7 @@ void MainWindow::on_noBattery_clicked()
 void MainWindow::on_contact_toggled(bool checked)
 {
     // Calling generate signal function in EEGHeadset to test
-    //headset->generateSignals();
+    device->initiateContact();
 }
 
 

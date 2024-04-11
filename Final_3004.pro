@@ -10,7 +10,6 @@ CONFIG += c++11
 
 SOURCES += \
     Device.cpp \
-    EEGHeadset.cpp \
     EEGSite.cpp \
     Session.cpp \
     SessionInfo.cpp \
@@ -20,7 +19,6 @@ SOURCES += \
 
 HEADERS += \
     Device.h \
-    EEGHeadset.h \
     EEGSite.h \
     Session.h \
     SessionInfo.h \

@@ -5,9 +5,11 @@
 #define SAMPLE_DURATION 6
 
 #include <QMainWindow>
+#include <QtCharts>
+#include <QChartView>
+#include <QLineSeries>
 
 #include "Device.h"
-#include "EEGHeadset.h"
 
 #include <iostream>
 using namespace std;
@@ -56,6 +58,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Device* device;
-    EEGHeadset* headset;
+
+    QLineSeries* series;
 };
 #endif // MAINWINDOW_H
