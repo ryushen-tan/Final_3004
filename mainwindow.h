@@ -9,6 +9,9 @@
 #include "Device.h"
 #include "EEGHeadset.h"
 
+#include <iostream>
+using namespace std;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -46,11 +49,9 @@ private slots:
 
     void on_noBattery_clicked();
 
-    void on_generateSignal_clicked();
-
-    void on_eegToggle_toggled(bool checked);
-
     void on_contact_toggled(bool checked);
+
+    void on_set_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    ui->newSessionView->setDisabled(true);
 
     // Connections
-    connect(ui->generateSignal, &QPushButton::clicked, this, &MainWindow::on_generateSignal_clicked);
+    //connect(ui->generateSignal, &QPushButton::clicked, this, &MainWindow::on_generateSignal_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -131,41 +131,35 @@ void MainWindow::on_connectPc_toggled(bool checked)
 void MainWindow::on_maxBattery_clicked()
 {
     ui->battery->setValue(100);
-    // this ^ is bandaid "fix", call setBattery function
+    device->setBattery(100);
 }
 
 
 void MainWindow::on_lowBattery_clicked()
 {
-    ui->battery->setValue(10);
-    // this ^ is bandaid "fix", call setBattery function
+    ui->battery->setValue(39);
+    device->setBattery(39);
 }
 
 
 void MainWindow::on_noBattery_clicked()
 {
     ui->battery->setValue(0);
-    // this ^ is bandaid "fix", call setBattery function
-}
-
-
-void MainWindow::on_generateSignal_clicked()
-{
-    //generate EEG signal, aka put on headset? or do we also have a connect headset button?
-
-    // Calling generate signal function in EEGHeadset to test
-    headset->generateSignals();
-}
-
-
-void MainWindow::on_eegToggle_toggled(bool checked)
-{
-    //toggle? not sure what this does
+    device->setBattery(0);
 }
 
 
 void MainWindow::on_contact_toggled(bool checked)
 {
-    //put on headset?
+    // Calling generate signal function in EEGHeadset to test
+    //headset->generateSignals();
+}
+
+
+void MainWindow::on_set_clicked()
+{
+    std::cout << "set battery to " << ui->percentage->value() << "\n" << std::endl;
+    ui->battery->setValue(ui->percentage->value());
+    device->setBattery(ui->percentage->value());
 }
 
