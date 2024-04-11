@@ -9,6 +9,10 @@ Session::Session() :
     sessionInfo = new SessionInfo();
 }
 
+void Session::timerMovement()
+{
+
+}
 void Session::endSession()
 {
     endTime = QDateTime::currentDateTime();
@@ -19,7 +23,7 @@ void Session::endSession()
 void Session::pause()
 {
     paused = true;
-    sessionDuration = QDateTime::currentMSecsSinceEpoch() - startTime.toMSecsSinceEpoch(); // calcuulate session length on pause
+    sessionDuration = QDateTime::currentMSecsSinceEpoch() - startTime.toMSecsSinceEpoch(); // calculate session length on pause
 }
 
 void Session::unPause()

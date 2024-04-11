@@ -243,7 +243,7 @@ with PC</string>
        <string>Stop</string>
       </property>
      </widget>
-     <widget class="QProgressBar" name="progress">
+     <widget class="QProgressBar" name="sessionBar">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -254,6 +254,22 @@ with PC</string>
       </property>
       <property name="value">
        <number>100</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>70</y>
+        <width>62</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>30</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>

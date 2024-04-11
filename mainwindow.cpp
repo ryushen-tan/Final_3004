@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     device = new Device(this);
 
-    series = new QLineSeries();
+//    series = new QLineSeries();
 
 //    ui->menu->setDisabled(true);
 //    ui->menuView->setDisabled(true);
