@@ -5,9 +5,9 @@
 #define SAMPLE_DURATION 6
 
 #include <QMainWindow>
-#include <QtCharts>
-#include <QChartView>
-#include <QLineSeries>
+//#include <QtCharts>
+//#include <QChartView>
+//#include <QLineSeries>
 
 #include "Device.h"
 
@@ -59,6 +59,6 @@ private:
     Ui::MainWindow *ui;
     Device* device;
 
-    QLineSeries* series;
+//    QLineSeries* series;
 };
 #endif // MAINWINDOW_H
