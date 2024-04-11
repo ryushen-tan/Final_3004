@@ -19,16 +19,18 @@ void Device::setTime(const QDateTime &dt) {
 
 void Device::powerButton()
 {
+    // turning on: get battery value from file & store in variable - enable main menu, computer view, admin view
 
+    // turning off: update battery value in file from variable - disable device view only
 }
 
 void Device::setBattery(int charge)
 {
-    if (charge < 0) // if charge is negative, this is a battery drain of (int) charge %
+    if (charge < 0) // if charge value is negative, this is a battery drain of (int) charge %
     {
         batteryLevel -= charge;
     }
-    else // if charge is not battery drain, battery level is being set to certain %
+    else // if charge value is not battery drain, battery level is being set to certain %
     {
         batteryLevel = charge;
     }
@@ -39,6 +41,7 @@ void Device::setBattery(int charge)
     }
     else if (batteryLevel < 40)
     {
-        //low power message... let's say each session requires around 40% battery, so if there's 10% or less, the device will let the user know it needs to be charged
+        //low power message... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
+        std::cout << "ATTENTION: low power! Please charge device. 40% minimum needed for a new session.\n" << std::endl;
     }
 }

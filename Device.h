@@ -3,6 +3,8 @@
 
 #include <QDateTime>
 #include <QVector>
+#include <iostream>
+using namespace std;
 
 class Session;
 

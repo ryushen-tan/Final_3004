@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1872</width>
+    <width>1032</width>
     <height>918</height>
    </rect>
   </property>
@@ -17,59 +17,66 @@
    <widget class="QGroupBox" name="Admin">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>20</y>
-      <width>761</width>
-      <height>451</height>
+      <x>480</x>
+      <y>490</y>
+      <width>531</width>
+      <height>381</height>
      </rect>
     </property>
     <property name="title">
-     <string>Admin &amp; Test View</string>
+     <string>Admin and Test View</string>
     </property>
     <widget class="QGroupBox" name="groupBox">
      <property name="geometry">
       <rect>
-       <x>540</x>
-       <y>80</y>
-       <width>171</width>
-       <height>321</height>
+       <x>10</x>
+       <y>40</y>
+       <width>311</width>
+       <height>171</height>
       </rect>
      </property>
      <property name="title">
       <string>Test Buttons</string>
      </property>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
+     <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
-        <width>151</width>
-        <height>241</height>
+        <y>30</y>
+        <width>293</width>
+        <height>135</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QPushButton" name="maxBattery">
-         <property name="text">
-          <string>MAXIMUM POWA</string>
-         </property>
-        </widget>
-       </item>
-       <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="0">
         <widget class="QPushButton" name="lowBattery">
          <property name="text">
           <string>Simulate Low Battery</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="maxBattery">
+         <property name="text">
+          <string>MAXIMUM POWA</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="contact">
+         <property name="text">
+          <string>Contact</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
         <widget class="QPushButton" name="noBattery">
          <property name="text">
           <string>Simulate No Battery</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="1">
         <widget class="QPushButton" name="connectPc">
          <property name="text">
           <string>Disconnect/connect
@@ -77,44 +84,69 @@ with PC</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="generateSignal">
-         <property name="text">
-          <string>Generate Signal</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="eegToggle">
-         <property name="text">
-          <string>EEG Toggle</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
+    </widget>
+    <widget class="QPushButton" name="set">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>170</y>
+       <width>51</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>set</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="waveformView">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>220</y>
+       <width>111</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Waveform view</string>
+     </property>
     </widget>
     <widget class="QTextBrowser" name="textBrowser">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>130</y>
-       <width>451</width>
-       <height>271</height>
+       <x>10</x>
+       <y>240</y>
+       <width>501</width>
+       <height>121</height>
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="contact">
+    <widget class="QLabel" name="setBatteryLevel">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>90</y>
-       <width>83</width>
-       <height>25</height>
+       <x>340</x>
+       <y>140</y>
+       <width>137</width>
+       <height>24</height>
       </rect>
      </property>
      <property name="text">
-      <string>Contact</string>
+      <string>Set battery lvl</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="percentage">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>170</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>100</number>
      </property>
     </widget>
    </widget>
@@ -123,7 +155,7 @@ with PC</string>
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>811</width>
+      <width>821</width>
       <height>471</height>
      </rect>
     </property>
@@ -168,7 +200,7 @@ with PC</string>
       <rect>
        <x>460</x>
        <y>40</y>
-       <width>321</width>
+       <width>331</width>
        <height>201</height>
       </rect>
      </property>
@@ -180,7 +212,7 @@ with PC</string>
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>301</width>
+        <width>311</width>
         <height>131</height>
        </rect>
       </property>
@@ -201,7 +233,7 @@ with PC</string>
      <widget class="QPushButton" name="stop">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>190</x>
         <y>170</y>
         <width>83</width>
         <height>25</height>
@@ -290,7 +322,7 @@ with PC</string>
       <rect>
        <x>460</x>
        <y>250</y>
-       <width>321</width>
+       <width>331</width>
        <height>211</height>
       </rect>
      </property>
@@ -302,7 +334,7 @@ with PC</string>
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>301</width>
+        <width>311</width>
         <height>171</height>
        </rect>
       </property>
@@ -399,7 +431,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>10</x>
       <y>490</y>
-      <width>811</width>
+      <width>461</width>
       <height>381</height>
      </rect>
     </property>
@@ -409,9 +441,9 @@ p, li { white-space: pre-wrap; }
     <widget class="QComboBox" name="logList">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>20</x>
        <y>50</y>
-       <width>361</width>
+       <width>221</width>
        <height>25</height>
       </rect>
      </property>
@@ -419,9 +451,9 @@ p, li { white-space: pre-wrap; }
     <widget class="QTextEdit" name="textEdit_4">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>20</x>
        <y>90</y>
-       <width>701</width>
+       <width>411</width>
        <height>271</height>
       </rect>
      </property>
@@ -433,7 +465,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1872</width>
+     <width>1032</width>
      <height>22</height>
     </rect>
    </property>
