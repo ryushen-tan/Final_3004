@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+qreal MainWindow::plotTime = 0.0;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -12,7 +14,37 @@ MainWindow::MainWindow(QWidget *parent)
     checked_play = false;
     checked_connectPC = false;
     checked_headsetContact = false;
-    //series = new QLineSeries();
+
+    series = new QLineSeries();
+    chart = new QChart();
+    chartView = new QChartView(chart);
+
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->setTitle("EEG Signal Plot");
+
+
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setParent(ui->signalPlotFrame);
+    chartView->setFixedSize(900, 350);
+
+    axisX = new QValueAxis();
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+    axisX->setRange(0, 6);
+
+    axisY = new QValueAxis();
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+    axisY->setRange(-20,20);
+
+    // site combo bbox
+    for (int i = 1; i <= EEG_SITES; ++i) {
+        ui->sitePlotComboBox->addItem(QString("Site %1").arg(i));
+    }
+
+    connect(ui->sitePlotComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::updateSiteToPlot);
+
 
     ui->menu->setDisabled(true);
     ui->menuView->setDisabled(true);
@@ -197,13 +229,13 @@ void MainWindow::on_noBattery_clicked()
 void MainWindow::on_contact_clicked()
 {
     if (checked_headsetContact) {
-        // Calling generate signal function in EEGHeadset to test
-        device->initiateContact();
-        checked_headsetContact = false; // set button ready to disconnect when next clicked
+        checked_headsetContact = false;  // set button ready to connect when next clicked
         std::cout << "checked headset contact is now false\n ready to disconnect" << std::endl;
     }
     else {
-        checked_headsetContact = true;  // set button ready to connect when next clicked
+        // Calling generate signal function in EEGHeadset to test
+        device->initiateContact();
+        checked_headsetContact = false; // set button ready to disconnect when next clicked
         std::cout << "checked headset contact is now true\n ready to connect" << std::endl;
     }
 
@@ -218,8 +250,27 @@ void MainWindow::on_set_clicked()
 
 void MainWindow::plotEEGSignal(double value)
 {
-    static double x = 0;
+    series->append(plotTime, value);
 
-    series->append(x, value);
+    qreal sampleRate = SAMPLING_RATE;
+    plotTime += 1.0 / sampleRate;
+
+    //axisX->setRange(0, plotTime);
+}
+
+void MainWindow::updateSiteToPlot(int index)
+{
+    if (index >= 0 && index < device->sites.size())
+    {
+        currSite = device->sites[index];
+
+        // reset time when switching sites
+        plotTime = 0.0;
+
+        disconnect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
+
+        connect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
+        series->clear();
+    }
 }
 
