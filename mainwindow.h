@@ -8,6 +8,7 @@
 //#include <QtCharts>
 //#include <QChartView>
 //#include <QLineSeries>
+#include <QStringList>
 
 #include "Device.h"
 
@@ -58,6 +59,9 @@ public slots:
 
     void on_set_clicked();
 
+private slots:
+    void on_logList_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     Device* device;
@@ -65,6 +69,8 @@ private:
     bool checked_play;
     bool checked_connectPC;
     bool checked_headsetContact;
+//    QVector<QString> datesAndTimes;  //dummy log list
+    QStringList datesAndTimes;  //dummy log list
     //QLineSeries* series;
 };
 #endif // MAINWINDOW_H

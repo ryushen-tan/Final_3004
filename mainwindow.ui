@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1032</width>
-    <height>918</height>
+    <height>1006</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -329,7 +329,7 @@ with PC</string>
      <property name="title">
       <string>Session Logs View</string>
      </property>
-     <widget class="QTextEdit" name="textEdit_2">
+     <widget class="QScrollArea" name="scrollArea">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -338,13 +338,29 @@ with PC</string>
         <height>171</height>
        </rect>
       </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Should this be a List View? idk, it can just display the same info as the dropdown in computer view&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <property name="widgetResizable">
+       <bool>true</bool>
       </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>309</width>
+         <height>169</height>
+        </rect>
+       </property>
+       <widget class="QListWidget" name="sessionsLogWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>311</width>
+          <height>221</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
     <widget class="QGroupBox" name="menuView">
@@ -448,7 +464,7 @@ p, li { white-space: pre-wrap; }
       </rect>
      </property>
     </widget>
-    <widget class="QTextEdit" name="textEdit_4">
+    <widget class="QTextEdit" name="logView">
      <property name="geometry">
       <rect>
        <x>20</x>
