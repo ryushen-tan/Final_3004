@@ -37,6 +37,8 @@ public:
     void initiateContact();
     void generateSignals();
 
+    void turnOffDevice();
+
 private:
     QVector<QString> currSeshInfo;
     bool hasContact;
