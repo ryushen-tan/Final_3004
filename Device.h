@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QVector>
 #include <iostream>
+#include "mainwindow.h"
 
 using namespace std;
 

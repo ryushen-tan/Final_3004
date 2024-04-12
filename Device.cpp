@@ -14,6 +14,7 @@ Device::Device(MainWindow* mw) :
     {
         sites.append(new EEGSite());
     }
+
 }
 
 Device::~Device() {

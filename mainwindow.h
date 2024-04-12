@@ -58,6 +58,8 @@ public slots:
 
     void on_set_clicked();
 
+    void plotEEGSignal(double);
+
 private:
     Ui::MainWindow *ui;
     Device* device;

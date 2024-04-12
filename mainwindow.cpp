@@ -215,3 +215,11 @@ void MainWindow::on_set_clicked()
     ui->battery->setValue(ui->percentage->value());
     device->setBattery(ui->percentage->value());
 }
+
+void MainWindow::plotEEGSignal(double value)
+{
+    static double x = 0;
+
+    series->append(x, value);
+}
+
