@@ -152,7 +152,8 @@ void MainWindow::on_stop_clicked()
 
 void MainWindow::on_submitTime_clicked()
 {
-    //TODO: get info from qtimedate widget, save
+    //TODO: get info from qtimedate widget, set
+    device->setTime(ui->dateTimeEdit->dateTime());
 }
 
 
