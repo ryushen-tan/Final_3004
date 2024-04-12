@@ -80,11 +80,9 @@ void Device::generateSignals()
     }
 }
 
-
 void Device::turnOffDevice()    // turning off device function: update battery value in file from variable - disable device view only
 {
     //TODO: update battery value in file from variable
-
-        mainWindow->power_off();
-
+    mainWindow->power_off();
 }
+

@@ -161,12 +161,18 @@ void MainWindow::on_connectPc_clicked()
 {
     //default state: false (not connected to PC)
     if (checked_connectPC) {
-        //connect to PC
+        //disconnect from PC
         checked_connectPC = false;  // set button ready to disconnect when next clicked
         std::cout << "checked connect pc is now false\n ready to disconnect" << std::endl;
     }
     else {
-        //disconnect from PC
+        //connect to PC
+        ui->ComputerView->setEnabled(true);
+
+        //dummy list of log dates and times
+        QStringList datesAndTimes = {"jan 1, 2024 00:00:00","jan 2, 2024 15:00:00","apr 12, 2024 15:39:07"};
+        ui->logList->addItems(datesAndTimes);   //add list to dropdown
+
         checked_connectPC = true;   // set button ready to connect when next clicked
         std::cout << "checked connect pc is now true \n ready to connect" << std::endl;
     }
@@ -215,3 +221,9 @@ void MainWindow::on_set_clicked()
     ui->battery->setValue(ui->percentage->value());
     device->setBattery(ui->percentage->value());
 }
+
+void MainWindow::on_logList_currentIndexChanged(const QString &arg1)
+{
+    ui->logView->setText(arg1);
+}
+

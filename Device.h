@@ -22,6 +22,7 @@ public:
     QDateTime currTime;
     QVector<Session*> savedSessions;
     Session* currentSession;
+
     int batteryLevel;
     bool powerStatus;
 

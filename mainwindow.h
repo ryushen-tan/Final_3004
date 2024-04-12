@@ -8,6 +8,7 @@
 //#include <QtCharts>
 //#include <QChartView>
 //#include <QLineSeries>
+#include <QStringList>
 
 #include "Device.h"
 
@@ -57,6 +58,9 @@ public slots:
     void on_contact_clicked();
 
     void on_set_clicked();
+
+private slots:
+    void on_logList_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
