@@ -14,6 +14,24 @@ MainWindow::MainWindow(QWidget *parent)
     checked_headsetContact = false;
     //series = new QLineSeries();
 
+    //dummy log list, front end only *this should be populated from text file when we actually have one, using a for/while loop
+    datesAndTimes.append("jan 1, 2024 00:00:00");
+    datesAndTimes.append("jan 2, 2024 15:00:00");
+    datesAndTimes.append("apr 12, 2024 15:39:07");
+    datesAndTimes.append("up up down down left right left right a b");
+    datesAndTimes.append("5");
+    datesAndTimes.append("127fhjklselu");
+    datesAndTimes.append("however many it takes");
+    datesAndTimes.append("oct 22, 2024 17:14:35");
+    datesAndTimes.append("jan 1, 2024 00:00:00");
+    datesAndTimes.append("jan 2, 2024 15:00:00");
+    datesAndTimes.append("apr 12, 2024 15:39:07");
+    datesAndTimes.append("up up down down left right left right a b");
+    datesAndTimes.append("5");
+    datesAndTimes.append("127fhjklselu");
+    datesAndTimes.append("however many it takes");
+    datesAndTimes.append("oct 22, 2024 17:14:35");
+
     ui->menu->setDisabled(true);
     ui->menuView->setDisabled(true);
     ui->timeAndDateView->setDisabled(true);
@@ -108,6 +126,7 @@ void MainWindow::on_sessionLogs_clicked()
     ui->newSessionView->setDisabled(true);
 
     //display logs, allow scrolling through the logs
+    ui->sessionsLogWidget->addItems(datesAndTimes);
 }
 
 
@@ -170,7 +189,7 @@ void MainWindow::on_connectPc_clicked()
         ui->ComputerView->setEnabled(true);
 
         //dummy list of log dates and times
-        QStringList datesAndTimes = {"jan 1, 2024 00:00:00","jan 2, 2024 15:00:00","apr 12, 2024 15:39:07"};
+
         ui->logList->addItems(datesAndTimes);   //add list to dropdown
 
         checked_connectPC = true;   // set button ready to connect when next clicked

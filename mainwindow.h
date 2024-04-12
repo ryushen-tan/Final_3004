@@ -69,6 +69,8 @@ private:
     bool checked_play;
     bool checked_connectPC;
     bool checked_headsetContact;
+//    QVector<QString> datesAndTimes;  //dummy log list
+    QStringList datesAndTimes;  //dummy log list
     //QLineSeries* series;
 };
 #endif // MAINWINDOW_H
