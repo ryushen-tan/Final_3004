@@ -5,9 +5,9 @@
 #define SAMPLE_DURATION 6
 
 #include <QMainWindow>
-#include <QtCharts>
-#include <QChartView>
-#include <QLineSeries>
+//#include <QtCharts>
+//#include <QChartView>
+//#include <QLineSeries>
 
 #include "Device.h"
 
@@ -26,8 +26,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_power_toggled(bool checked);
+public slots:
+
+    void on_power_clicked();
+
+    void power_off();
 
     void on_menu_clicked();
 
@@ -37,13 +40,13 @@ private slots:
 
     void on_setTimeAndDate_clicked();
 
-    void on_play_toggled(bool checked);
+    void on_play_clicked();
 
     void on_stop_clicked();
 
     void on_submitTime_clicked();
 
-    void on_connectPc_toggled(bool checked);
+    void on_connectPc_clicked();
 
     void on_maxBattery_clicked();
 
@@ -51,14 +54,17 @@ private slots:
 
     void on_noBattery_clicked();
 
-    void on_contact_toggled(bool checked);
+    void on_contact_clicked();
 
     void on_set_clicked();
 
 private:
     Ui::MainWindow *ui;
     Device* device;
-
-    QLineSeries* series;
+    bool checked_power;
+    bool checked_play;
+    bool checked_connectPC;
+    bool checked_headsetContact;
+    //QLineSeries* series;
 };
 #endif // MAINWINDOW_H

@@ -1,8 +1,10 @@
 #include "Device.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 Device::Device(MainWindow* mw) :
     currTime(QDateTime::currentDateTime()),
-    batteryLevel(100), //
+    batteryLevel(100), //TODO: get battery value from file & store in variable
     powerStatus(false),
     hasContact(false)
 {
@@ -24,9 +26,19 @@ void Device::setTime(const QDateTime &dt) {
 
 void Device::powerButton()
 {
-    // turning on: get battery value from file & store in variable - enable main menu, computer view, admin view
+    if (powerStatus) {
+        turnOffDevice();    // turning off function
+        powerStatus = false;
+    }
+    else {
+        if (batteryLevel > 0) {
+            powerStatus = true;
+        }
+        std::cout << "ATTENTION: no power! Device cannot power on...\n" << std::endl;
+        // turning on
+        //print variables to show status? - not needed for now
+    }
 
-    // turning off: update battery value in file from variable - disable device view only
 }
 
 void Device::setBattery(int charge)
@@ -42,13 +54,15 @@ void Device::setBattery(int charge)
 
     if (batteryLevel == 0)
     {
-        //power off
+        std::cout << "ATTENTION: no power! Device powering off...\n" << std::endl;
+        turnOffDevice();    //power off
     }
     else if (batteryLevel < 40)
     {
         //low power message... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
         std::cout << "ATTENTION: low power! Please charge device. 40% minimum needed for a new session.\n" << std::endl;
     }
+    std::cout << "battery is set to " << batteryLevel << "\n" << std::endl;
 }
 
 void Device::initiateContact()
@@ -63,4 +77,13 @@ void Device::generateSignals()
     {
         sites[i]->generateSignal();
     }
+}
+
+
+void Device::turnOffDevice()    // turning off device function: update battery value in file from variable - disable device view only
+{
+    //TODO: update battery value in file from variable
+
+        mainWindow->power_off();
+
 }
