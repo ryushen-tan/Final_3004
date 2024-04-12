@@ -22,6 +22,7 @@ Device::~Device() {
 
 void Device::setTime(const QDateTime &dt) {
     currTime = dt;
+    qDebug() << currTime;
 }
 
 void Device::powerButton()
