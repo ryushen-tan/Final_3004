@@ -5,9 +5,10 @@
 #define SAMPLE_DURATION 6
 
 #include <QMainWindow>
-//#include <QtCharts>
-//#include <QChartView>
-//#include <QLineSeries>
+#include <QtCharts>
+#include <QChartView>
+#include <QLineSeries>
+#include <QString>
 #include <QStringList>
 
 #include "Device.h"
@@ -59,6 +60,9 @@ public slots:
 
     void on_set_clicked();
 
+    void plotEEGSignal(double);
+    void updateSiteToPlot(int);
+
 private slots:
     void on_logList_currentIndexChanged(const QString &arg1);
 
@@ -69,8 +73,16 @@ private:
     bool checked_play;
     bool checked_connectPC;
     bool checked_headsetContact;
+
 //    QVector<QString> datesAndTimes;  //dummy log list
     QStringList datesAndTimes;  //dummy log list
-    //QLineSeries* series;
+    QLineSeries* series;
+    QChart* chart;
+    QChartView* chartView;
+    QValueAxis* axisX;
+    QValueAxis* axisY;
+
+    EEGSite* currSite;
+    static qreal plotTime;
 };
 #endif // MAINWINDOW_H

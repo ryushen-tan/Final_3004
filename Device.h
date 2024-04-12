@@ -22,6 +22,7 @@ public:
     QDateTime currTime;
     QVector<Session*> savedSessions;
     Session* currentSession;
+    QVector<EEGSite*> sites;
 
     int batteryLevel;
     bool powerStatus;
@@ -43,8 +44,6 @@ public:
 private:
     QVector<QString> currSeshInfo;
     bool hasContact;
-
-    QVector<EEGSite*> sites;
 
     MainWindow* mainWindow;
 };
