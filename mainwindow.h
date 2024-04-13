@@ -62,6 +62,7 @@ public slots:
 
     void plotEEGSignal(double);
     void updateSiteToPlot(int);
+    void clearGraph();
 
 private slots:
     void on_logList_currentIndexChanged(const QString &arg1);

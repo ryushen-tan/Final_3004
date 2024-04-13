@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
         ui->sitePlotComboBox->addItem(QString("Site %1").arg(i));
     }
 
+    // Connect First site in combobox's signal to plot
+    connect(device->sites[0], &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
+
+
     connect(ui->sitePlotComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::updateSiteToPlot);
 
 
@@ -73,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Connections
     //connect(ui->generateSignal, &QPushButton::clicked, this, &MainWindow::on_generateSignal_clicked);
+    connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clearGraph);
 }
 
 MainWindow::~MainWindow()
@@ -297,6 +302,11 @@ void MainWindow::updateSiteToPlot(int index)
         connect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
         series->clear();
     }
+}
+
+void MainWindow::clearGraph()
+{
+    series->clear();
 }
 
 
