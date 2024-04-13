@@ -4,22 +4,29 @@
     * Use Cases, Class Diagram
     * Battery Functionality
     * Button Implemenation/Logic
+    * Design & Prototyping
 * Ryushen Tan - ryushen-tan
     * UI Design/Implemenation
-    * Button Implemenation/Logic
-    * New Session UI Implementation
-    * UI Styling (In Progress)
+    * New Session UI
     * New Session Implementation
+    * Button Implemenation/Logic
+    * Design & Prototyping
 * William Yin - water-fleas
     * Use Cases, Class Diagram
     * Session Info Class Implementation
+    * Button Implemenation/Logic
+    * Design & Prototyping
 * Stephen Mamosian - TheSlenk
     * New Session Process Implementation/Logic
+    * New Session Process/Controller
+    * Button Implemenation/Logic
+    * Design & Prototyping
 * Mike Lin - Maiku3
     * Use Cases, Class Diagram
     * Signal Generation Implementation/Logic
     * EEG Site and Processing Implementation
-
+    * Button Implemenation/Logic
+    * Design & Prototyping
 * TA: Anjali
 
 ## File Organization
