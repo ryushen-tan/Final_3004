@@ -1,6 +1,8 @@
 #include "Device.h"
+#include "mainwindow.h"
 
-Device::Device(MainWindow* mw) :
+Device::Device(MainWindow* mw, QObject* parent) :
+    QObject(parent),
     currTime(QDateTime::currentDateTime()),
     currentSession(nullptr),
     batteryLevel(100), //
@@ -13,6 +15,12 @@ Device::Device(MainWindow* mw) :
     {
         sites.append(new EEGSite());
     }
+
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Device::updateRound);
+
+    sessionDuration = 0;
+    numberOfRound = 1;
 }
 
 Device::~Device() {
@@ -68,7 +76,29 @@ void Device::generateSignals()
 
 void Device::beginSesh() {
     //create a new session
-    Session* newSession = new Session();
+    SessionInfo* newSession = new SessionInfo();
     currentSession = newSession;
     savedSessions.append(newSession);
+    sessionDuration = 0;
+    numberOfRound = 1;
+    timer->start(1000);
+
+}
+
+void Device::updateRound() {
+    if(currentSession) {
+        sessionDuration += 1;
+        numberOfRound = static_cast<int>(sessionDuration / ROUND_LEN);
+        mainWindow->update_session_timer(sessionDuration);
+        if(sessionDuration >= MAX_DUR) {
+            endSesh();
+            return;
+        }
+    }
+}
+
+void Device::endSesh() {
+    timer->stop();
+    currentSession->endSession();
+    currentSession = nullptr;
 }

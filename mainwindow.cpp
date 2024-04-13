@@ -70,6 +70,7 @@ void MainWindow::on_newSession_clicked()
     //instruct user to get headset and connect. Allow user to press start once connection is logged
 
     // start a new session on the device
+    qInfo("We here");
     device->beginSesh();
 }
 
@@ -167,3 +168,7 @@ void MainWindow::on_set_clicked()
     device->setBattery(ui->percentage->value());
 }
 
+void MainWindow::update_session_timer(int time) {
+    ui->sessionTimer->setText(QString::number(MAX_DUR - time));
+    ui->sessionBar->setValue(static_cast<int>(time * 100 / MAX_DUR));
+}

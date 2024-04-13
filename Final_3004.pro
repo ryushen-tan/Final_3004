@@ -11,7 +11,6 @@ CONFIG += c++11
 SOURCES += \
     Device.cpp \
     EEGSite.cpp \
-    Session.cpp \
     SessionInfo.cpp \
     SignalGenerator.cpp \
     main.cpp \
@@ -20,7 +19,6 @@ SOURCES += \
 HEADERS += \
     Device.h \
     EEGSite.h \
-    Session.h \
     SessionInfo.h \
     SignalGenerator.h \
     mainwindow.h

@@ -256,7 +256,7 @@ with PC</string>
        <number>100</number>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="sessionTimer">
       <property name="geometry">
        <rect>
         <x>130</x>
@@ -266,7 +266,7 @@ with PC</string>
        </rect>
       </property>
       <property name="text">
-       <string>30</string>
+       <string>29</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

@@ -26,6 +26,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void update_session_timer(int time);
+
 private slots:
     void on_power_toggled(bool checked);
 
