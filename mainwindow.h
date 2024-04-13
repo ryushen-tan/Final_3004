@@ -5,11 +5,13 @@
 #define SAMPLE_DURATION 6
 
 #include <QMainWindow>
+
 #include <QtCharts>
 #include <QChartView>
 #include <QLineSeries>
 #include <QString>
 #include <QStringList>
+
 
 #include "Device.h"
 
@@ -28,6 +30,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void update_session_timer(int time);
     void power_off();
 
 public slots:
@@ -74,6 +77,7 @@ private:
     bool checked_play;
     bool checked_connectPC;
     bool checked_headsetContact;
+
 
 //    QVector<QString> datesAndTimes;  //dummy log list
     QStringList datesAndTimes;  //dummy log list

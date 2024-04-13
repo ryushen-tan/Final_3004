@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     checked_connectPC = false;
     checked_headsetContact = false;
 
+
     series = new QLineSeries();
     chart = new QChart();
     chartView = new QChartView(chart);
@@ -42,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     for (int i = 1; i <= EEG_SITES; ++i) {
         ui->sitePlotComboBox->addItem(QString("Site %1").arg(i));
     }
+
 
     // Connect First site in combobox's signal to plot
     connect(device->sites[0], &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
@@ -150,6 +152,10 @@ void MainWindow::on_newSession_clicked()
     //TODO: reset timer and progress bar
 
     //instruct user to get headset and connect. Allow user to press start once connection is logged
+
+
+    // start a new session on the device
+    device->beginSesh();
 
 }
 
@@ -278,6 +284,12 @@ void MainWindow::on_set_clicked()
     device->setBattery(ui->percentage->value());
 }
 
+
+void MainWindow::update_session_timer(int time) {
+    ui->sessionTimer->setText(QString::number(MAX_DUR - time));
+    ui->sessionBar->setValue(static_cast<int>(time * 100 / MAX_DUR));
+}
+
 void MainWindow::plotEEGSignal(double value)
 {
     series->append(plotTime, value);
@@ -314,4 +326,3 @@ void MainWindow::on_logList_currentIndexChanged(const QString &arg1)
 {
     ui->logView->setText(arg1);
 }
-
