@@ -2,6 +2,7 @@
 
 Device::Device(MainWindow* mw) :
     currTime(QDateTime::currentDateTime()),
+    currentSession(nullptr),
     batteryLevel(100), //
     powerStatus(false),
     hasContact(false)
@@ -46,7 +47,7 @@ void Device::setBattery(int charge)
     }
     else if (batteryLevel < 40)
     {
-        //low power message... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
+        //low power messfage... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
         std::cout << "ATTENTION: low power! Please charge device. 40% minimum needed for a new session.\n" << std::endl;
     }
 }
@@ -63,4 +64,11 @@ void Device::generateSignals()
     {
         sites[i]->generateSignal();
     }
+}
+
+void Device::beginSesh() {
+    //create a new session
+    Session* newSession = new Session();
+    currentSession = newSession;
+    savedSessions.append(newSession);
 }

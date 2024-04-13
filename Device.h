@@ -10,6 +10,7 @@
 using namespace std;
 
 #include "EEGSite.h"
+#include "Session.h"
 
 class MainWindow; // Forward declaration
 class Session;

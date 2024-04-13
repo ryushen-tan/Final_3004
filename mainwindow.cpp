@@ -68,6 +68,9 @@ void MainWindow::on_newSession_clicked()
     ui->sessionLogsView->setDisabled(true);
 
     //instruct user to get headset and connect. Allow user to press start once connection is logged
+
+    // start a new session on the device
+    device->beginSesh();
 }
 
 
