@@ -1,11 +1,14 @@
 #include "Device.h"
 #include "mainwindow.h"
 
+#include "ui_mainwindow.h"
+
+
 Device::Device(MainWindow* mw, QObject* parent) :
     QObject(parent),
     currTime(QDateTime::currentDateTime()),
     currentSession(nullptr),
-    batteryLevel(100), //
+    batteryLevel(100), //TODO: get battery value from file & store in variable
     powerStatus(false),
     hasContact(false)
 {
@@ -21,6 +24,7 @@ Device::Device(MainWindow* mw, QObject* parent) :
 
     sessionDuration = 0;
     numberOfRound = 1;
+
 }
 
 Device::~Device() {
@@ -29,13 +33,24 @@ Device::~Device() {
 
 void Device::setTime(const QDateTime &dt) {
     currTime = dt;
+    qDebug() << currTime;
 }
 
 void Device::powerButton()
 {
-    // turning on: get battery value from file & store in variable - enable main menu, computer view, admin view
+    if (powerStatus) {
+        turnOffDevice();    // turning off function
+        powerStatus = false;
+    }
+    else {
+        if (batteryLevel > 0) {
+            powerStatus = true;
+        }
+        std::cout << "ATTENTION: no power! Device cannot power on...\n" << std::endl;
+        // turning on
+        //print variables to show status? - not needed for now
+    }
 
-    // turning off: update battery value in file from variable - disable device view only
 }
 
 void Device::setBattery(int charge)
@@ -51,13 +66,15 @@ void Device::setBattery(int charge)
 
     if (batteryLevel == 0)
     {
-        //power off
+        std::cout << "ATTENTION: no power! Device powering off...\n" << std::endl;
+        turnOffDevice();    //power off
     }
     else if (batteryLevel < 40)
     {
         //low power messfage... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
         std::cout << "ATTENTION: low power! Please charge device. 40% minimum needed for a new session.\n" << std::endl;
     }
+    std::cout << "battery is set to " << batteryLevel << "\n" << std::endl;
 }
 
 void Device::initiateContact()
@@ -102,3 +119,11 @@ void Device::endSesh() {
     currentSession->endSession();
     currentSession = nullptr;
 }
+
+void Device::turnOffDevice()    // turning off device function: update battery value in file from variable - disable device view only
+{
+    //TODO: update battery value in file from variable
+    mainWindow->power_off();
+}
+
+

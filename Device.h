@@ -28,8 +28,11 @@ public:
 
     QTimer* timer;
     QDateTime currTime;
+  
     QVector<SessionInfo*> savedSessions;
     SessionInfo* currentSession;
+    QVector<EEGSite*> sites;
+
     int batteryLevel;
     bool powerStatus;
 
@@ -46,11 +49,11 @@ public:
     void initiateContact();
     void generateSignals();
 
+    void turnOffDevice();
+
 private:
     QVector<QString> currSeshInfo;
     bool hasContact;
-
-    QVector<EEGSite*> sites;
 
     MainWindow* mainWindow;
     int sessionDuration;

@@ -5,9 +5,13 @@
 #define SAMPLE_DURATION 6
 
 #include <QMainWindow>
-//#include <QtCharts>
-//#include <QChartView>
-//#include <QLineSeries>
+
+#include <QtCharts>
+#include <QChartView>
+#include <QLineSeries>
+#include <QString>
+#include <QStringList>
+
 
 #include "Device.h"
 
@@ -27,9 +31,11 @@ public:
     ~MainWindow();
 
     void update_session_timer(int time);
+    void power_off();
 
-private slots:
-    void on_power_toggled(bool checked);
+public slots:
+
+    void on_power_clicked();
 
     void on_menu_clicked();
 
@@ -39,13 +45,13 @@ private slots:
 
     void on_setTimeAndDate_clicked();
 
-    void on_play_toggled(bool checked);
+    void on_play_clicked();
 
     void on_stop_clicked();
 
     void on_submitTime_clicked();
 
-    void on_connectPc_toggled(bool checked);
+    void on_connectPc_clicked();
 
     void on_maxBattery_clicked();
 
@@ -53,14 +59,35 @@ private slots:
 
     void on_noBattery_clicked();
 
-    void on_contact_toggled(bool checked);
+    void on_contact_clicked();
 
     void on_set_clicked();
+
+    void plotEEGSignal(double);
+    void updateSiteToPlot(int);
+    void clearGraph();
+
+private slots:
+    void on_logList_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
     Device* device;
+    bool checked_power;
+    bool checked_play;
+    bool checked_connectPC;
+    bool checked_headsetContact;
 
-//    QLineSeries* series;
+
+//    QVector<QString> datesAndTimes;  //dummy log list
+    QStringList datesAndTimes;  //dummy log list
+    QLineSeries* series;
+    QChart* chart;
+    QChartView* chartView;
+    QValueAxis* axisX;
+    QValueAxis* axisY;
+
+    EEGSite* currSite;
+    static qreal plotTime;
 };
 #endif // MAINWINDOW_H
