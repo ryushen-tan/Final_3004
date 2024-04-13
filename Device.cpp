@@ -95,7 +95,6 @@ void Device::beginSesh() {
     //create a new session
     SessionInfo* newSession = new SessionInfo();
     currentSession = newSession;
-    savedSessions.append(newSession);
     sessionDuration = 0;
     numberOfRound = 1;
     timer->start(1000);
@@ -117,6 +116,7 @@ void Device::updateRound() {
 void Device::endSesh() {
     timer->stop();
     currentSession->endSession();
+    savedSessions.append(currentSession);
     currentSession = nullptr;
 }
 
