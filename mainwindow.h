@@ -28,11 +28,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void power_off();
+
 public slots:
 
     void on_power_clicked();
-
-    void power_off();
 
     void on_menu_clicked();
 
