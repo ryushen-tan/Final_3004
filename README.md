@@ -9,31 +9,31 @@
 * TA: Anjali
 
 ## File Organization
-**Design Documentation**
-- Class Diagrams
-L Sequence Diagrams
-  - 1 normal operation of treatment
-  - 2 therapy history viewing with PC
-  - 3 device battery low response
-  - 4 connection loss between electrodes and the device
-L Use Cases
-**Implementation (Code)**
-- Final_3004
-  - Final_3004.pro
-  L Headers
-    - Device.h
-    - EEGSite.h
-    - mainwindow.h
-    - Session.h --to be removed
-    - SessionInfo.h --to be removed
-    - SignalGenerator.h
-  L Sources
-    - Device.cpp
-    - EEGSite.cpp
-    - main.cpp
-    - mainwindow.cpp
-    - Session.cpp --to be removed
-    - SessionInfo.cpp --to be removed
-    - SignalGenerator.cpp
-  L Forms
-    - mainwindow.ui
+**Design Documentation**\
+. Class Diagrams\
+L Sequence Diagrams\
+&nbsp;&nbsp;. 1 normal operation of treatment\
+&nbsp;&nbsp;. 2 therapy history viewing with PC\
+&nbsp;&nbsp;. 3 device battery low response\
+&nbsp;&nbsp;. 4 connection loss between electrodes and the device\
+L Use Cases\
+**Implementation (Code)**\
+. Final_3004\
+&nbsp;&nbsp;. Final_3004.pro\
+&nbsp;&nbsp;L Headers\
+&nbsp;&nbsp;&nbsp;&nbsp;. Device.h\
+&nbsp;&nbsp;&nbsp;&nbsp;. EEGSite.h\
+&nbsp;&nbsp;&nbsp;&nbsp;. mainwindow.h\
+&nbsp;&nbsp;&nbsp;&nbsp;. Session.h --to be removed\
+&nbsp;&nbsp;&nbsp;&nbsp;. SessionInfo.h --to be removed\
+&nbsp;&nbsp;&nbsp;&nbsp;. SignalGenerator.h\
+&nbsp;&nbsp;L Sources\
+&nbsp;&nbsp;&nbsp;&nbsp;. Device.cpp\
+&nbsp;&nbsp;&nbsp;&nbsp;. EEGSite.cpp\
+&nbsp;&nbsp;&nbsp;&nbsp;. main.cpp\
+&nbsp;&nbsp;&nbsp;&nbsp;. mainwindow.cpp\
+&nbsp;&nbsp;&nbsp;&nbsp;. Session.cpp --to be removed\
+&nbsp;&nbsp;&nbsp;&nbsp;. SessionInfo.cpp --to be removed\
+&nbsp;&nbsp;&nbsp;&nbsp;. SignalGenerator.cpp\
+&nbsp;&nbsp;L Forms\
+&nbsp;&nbsp;&nbsp;&nbsp;. mainwindow.ui
