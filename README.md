@@ -36,16 +36,14 @@ L Headers\
 &nbsp;&nbsp;. Device.h\
 &nbsp;&nbsp;. EEGSite.h\
 &nbsp;&nbsp;. mainwindow.h\
-&nbsp;&nbsp;. Session.h --to be removed\
-&nbsp;&nbsp;. SessionInfo.h --to be removed\
+&nbsp;&nbsp;. SessionInfo.h\
 &nbsp;&nbsp;. SignalGenerator.h\
 L Sources\
 &nbsp;&nbsp;. Device.cpp\
 &nbsp;&nbsp;. EEGSite.cpp\
 &nbsp;&nbsp;. main.cpp\
 &nbsp;&nbsp;. mainwindow.cpp\
-&nbsp;&nbsp;. Session.cpp --to be removed\
-&nbsp;&nbsp;. SessionInfo.cpp --to be removed\
+&nbsp;&nbsp;. SessionInfo.cpp\
 &nbsp;&nbsp;. SignalGenerator.cpp\
 L Forms\
 &nbsp;&nbsp;. mainwindow.ui\
