@@ -1,0 +1,164 @@
+USE CASE 0: USE THE NEURESET NEUROFEEDBACK SYSTEM DEVICE
+Primary Actor(s): Device user
+Stakeholder and Interests: 
+Device user (consumer, patient) - wants the (recording and treatment) session to succeed.
+Device manufacturers and designers - want the system to remain in proper working condition over the expected lifespan.
+
+Preconditions: The device user has access to the device. The device is powered off. The device is charged.
+Success guarantee(s): The device user’s session is completed successfully and recorded.
+Main success scenario:
+1. The user retrieves the Neureset Neurofeedback device.
+2. The user presses the ON/OFF button to power on the device.
+3. The device turns on.
+4. The device displays the menu with the following items: NEW SESSION, SESSION LOGS, TIME AND DATE.
+5. The user navigates the menu items.
+6. The user selects menu item(s) related to their desired process. 
+7. The user presses the ON/OFF button to power off the device. 
+
+Extensions: 
+*a. The device battery runs out.
+	*a1. The device powers off. Any unsaved data is lost. 
+*b. The device battery is low.
+	*b1. The device screen displays low battery message.
+3a.-6a. The user presses power button.
+	3a1.-6a1. If a session is running, stop the current session (Use Case 6).
+3a2.-6a2. The device powers off. 
+3b. The device is not charged sufficiently for the device to turn on.
+	3b1. The device does not power on.
+6a. The user wants to begin a new treatment session but the device time and date are either not set or inaccurate. 
+6a1a. The user selects the TIME AND DATE menu item (Use Case 4).
+6a2. The user selects the NEW SESSION menu item (Use Case 2).
+6b. The user wants to begin a new treatment session. The device time and date are accurate.
+	6b1. The user selects the NEW SESSION menu item (Use Case 2).
+6c. The user wants to view session logs.
+6c1. The user selects the SESSION LOGS menu item (Use Case 3).
+
+USE CASE 1: VIEW SESSION LOG DETAILS ON PC
+Primary Actor(s): Device user
+Stakeholder and Interests: 
+Device user (consumer, patient) - wants to view the details of the recording and treatment.
+Device manufacturers and designers - want the system to remain in proper working condition over the expected lifespan.
+
+Preconditions: The user has access to a computer with the Neureset Neurofeedback computer application installed. The user has access to the device and the appropriate cable to plug the device into the computer for data transfer. The device is powered off.
+Success guarantee(s): The device user’s session is completed successfully and recorded.
+Main success scenario:
+1. The user retrieves the Neureset Neurofeedback device and the cable.
+2. The user plugs the cable into the device and the computer, allowing for data flow from the device to the computer.
+3. The device detects it has been connected to a computer.
+4. The device turns on.
+5. The device syncs data to the Neureset Neurofeedback application.
+6. The application displays a dropdown with session logs’ dates and times (using the same level of detail that the user can see for session logs on the device).
+7. The user selects which session log they would like to view.
+8. The details of the selected session log are listed in the window beneath the dropdown.
+
+Extensions: 
+5a-7a. The device has no session logs stored.
+	5a1-7a1. The computer application does not display any session logs in the dropdown.
+
+
+USE CASE 2: NEW SESSION PROCESS
+Primary Actor(s): Device user
+Stakeholder and Interests: 
+Device user (consumer, patient) - wants the therapy treatment to help their mental state.
+Device manufacturers and designers - want the system to remain in proper working condition over the expected lifespan.
+
+Preconditions: The device user has access to the EEG headset, in addition to the device. The device is powered on.
+Success guarantee(s): The device user’s session is completed successfully and recorded.
+Main success scenario:
+The device screen displays the timer and progress bar.
+The user puts on the EEG headset and initiates contact with the electrodes.
+The device starts the timer and progress bar once contact is initiated.
+The blue light indicator turns on to show contact is initiated.
+The device begins the treatment process. Throughout the process, the timer updates to show the approximate time remaining, and the session progress bar keeps the user informed of the percentage of treatment completed.
+(Treatment description begins) <- delete this when we’ve figured out the treatment steps
+The device calculates a baseline for each EEG site at once (concurrently) over approximately one minute. 
+The device determines the average dominant frequency for that site. 
+The treatment is applied individually to each EEG site for one second per site (total of approx 21 seconds?), with the green light flashing to indicate treatment delivery. 
+(Treatment description ends) <- delete this when we’ve figured out the treatment steps
+Once the treatment is complete, a baseline is once again calculated for all 21 EEG sites.
+The session information (date, time, baseline average frequency before treatment, baseline average frequency after treatment) is recorded in a new session log on the device.
+
+Extensions: 
+*a. The user pauses current session (Use Case 5).
+*a. The user stops current session (Use Case 6).
+2a.-4a. Contact is lost and is reestablished within 5 minutes
+	2a1.-4a1. Once contact is lost, the red light indicator starts flashing.
+	2a2.-4a2. The session is paused. The device starts beeping.
+	2a3.-4a3. Contact is reestablished before 5 minutes of lost contact. The device stops beeping. 
+2a3.-4a3. The session resumes.
+2b.-4b. Contact is lost and is not reestablished within 5 minutes.
+	2b1.-4b1. Once contact is lost, the red light indicator starts flashing.
+	2b2.-4b2. The session is paused. The device starts beeping.
+2b3.-4b3. When 5 minutes have passed, the device erases data logged for the current session and turns off.
+
+USE CASE 3: VIEW SESSION LOGS
+Primary Actor(s): Device user
+Stakeholder and Interests: 
+Device user (consumer, patient) - wants to view the list of past session logs.
+Device manufacturers and designers - want the system to remain in proper working condition over the expected lifespan.
+
+Preconditions: The device is powered on. 
+Success guarantee(s): The device user can view all session logs that have been recorded.
+Main success scenario:
+The device displays the session logs as a list of times and dates.
+The user scrolls through the list. 
+
+Extensions: 
+2a. The user attempts to view session log details by selecting a session log item.
+	2a1. The device gives no response.
+
+
+USE CASE 4: SET TIME AND DATE
+Primary Actor(s): Device user
+Stakeholder and Interests: 
+Device user (consumer, patient) - wants to accurately set the current time and date to have an accurate session log once treatment is completed.
+Device manufacturers and designers - want the system to remain in proper working condition over the expected lifespan.
+
+Preconditions: The device is powered on. 
+Success guarantee(s): The time and date on the device are accurately set.
+Main success scenario:
+The device displays the time and date widget.
+The user sets the accurate time and date.
+The device updates its current time and date.
+
+Extensions: 
+2a. The user does not set the accurate time and date.
+	2a1. The device updates its current time and date as the inaccurate time and date.
+
+USE CASE 5: PAUSE CURRENT SESSION 
+Primary Actor(s): Device user
+Stakeholder and Interests: 
+Device user (consumer, patient) - wants to pause their current treatment session.
+Device manufacturers and designers - want the system to remain in proper working condition over the expected lifespan.
+
+Preconditions: The device is in a current session.
+Success guarantee(s): The device user’s session is voluntarily paused.
+Main success scenario:
+The user presses the pause button.
+The current session is paused.
+
+Extensions: 
+2a. Contact is lost and is reestablished within 5 minutes
+	2a1. Once contact is lost, the red light indicator starts flashing.
+	2a2. The session is paused. The device starts beeping.
+	2a3. Contact is reestablished before 5 minutes of lost contact. The device stops beeping. 
+2a4. The session resumes.
+2b. Contact is lost and is not reestablished within 5 minutes.
+	2b1. Once contact is lost, the red light indicator starts flashing.
+	2b2. The session is paused. The device starts beeping.
+2b3. When 5 minutes have passed, the device erases data logged for the current session and turns off.
+
+
+USE CASE 6: STOP CURRENT SESSION 
+Primary Actor(s): Device user
+Stakeholder and Interests: 
+Device user (consumer, patient) - wants to stop their current treatment session.
+Device manufacturers and designers - want the system to remain in proper working condition over the expected lifespan.
+
+Preconditions: The device is in a current session.
+Success guarantee(s): The device user’s session is voluntarily stopped.
+Main success scenario:
+The user presses the stop button.
+The current session is stopped. 
+The device erases data logged for the current session.
+The user is returned to the main menu.
