@@ -30,14 +30,7 @@
 * TA: Anjali
 
 ## File Organization
-**Design Documentation**\
-. Class Diagrams\
-L Sequence Diagrams\
-&nbsp;&nbsp;. 1 normal operation of treatment\
-&nbsp;&nbsp;. 2 therapy history viewing with PC\
-&nbsp;&nbsp;. 3 device battery low response\
-&nbsp;&nbsp;. 4 connection loss between electrodes and the device\
-L Use Cases\
+
 . Final_3004.pro\
 L Headers\
 &nbsp;&nbsp;. Device.h\
@@ -55,4 +48,12 @@ L Sources\
 &nbsp;&nbsp;. SessionInfo.cpp --to be removed\
 &nbsp;&nbsp;. SignalGenerator.cpp\
 L Forms\
-&nbsp;&nbsp;. mainwindow.ui
+&nbsp;&nbsp;. mainwindow.ui\
+L Design Documentation
+&nbsp;&nbsp;. Class Diagrams\
+&nbsp;&nbsp;. Use Cases\
+&nbsp;&nbsp;L Sequence Diagrams\
+&nbsp;&nbsp;&nbsp;&nbsp;. 1 normal operation of treatment\
+&nbsp;&nbsp;&nbsp;&nbsp;. 2 therapy history viewing with PC\
+&nbsp;&nbsp;&nbsp;&nbsp;. 3 device battery low response\
+&nbsp;&nbsp;&nbsp;&nbsp;. 4 connection loss between electrodes and the device\
