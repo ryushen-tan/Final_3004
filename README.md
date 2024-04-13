@@ -6,6 +6,9 @@
     * Button Implemenation/Logic
 * Ryushen Tan - ryushen-tan
     * UI Design/Implemenation
+    * Button Implemenation/Logic
+    * New Session UI Implementation
+    * UI Styling (In Progress)
     * New Session Implementation
 * William Yin - water-fleas
     * Use Cases, Class Diagram
