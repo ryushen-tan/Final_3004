@@ -8,6 +8,8 @@
 #include <QDateTime>
 #include <QVector>
 #include <iostream>
+#include <QVector>
+#include <QFile>
 
 using namespace std;
 
@@ -62,6 +64,9 @@ public:
     void turnOffDevice();
 
     bool getIsSeshPaused();
+
+    QVector<QString> readSessionHistory();
+    void saveSession(QDateTime date, float baselineBefore, float baselineAfter);
 
 private:
     QVector<QString> currSeshInfo;
