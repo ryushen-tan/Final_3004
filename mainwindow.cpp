@@ -265,6 +265,11 @@ void MainWindow::on_noBattery_clicked()
 void MainWindow::on_contact_clicked()
 {
     if (checked_headsetContact) {
+        int currSiteIndex = ui->sitePlotComboBox->currentIndex();
+        
+        // Disconnect signal from current site
+        disconnect(device->sites[currSiteIndex], &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
+
         checked_headsetContact = false;  // set button ready to connect when next clicked
         std::cout << "checked headset contact is now false\n ready to disconnect" << std::endl;
     }
