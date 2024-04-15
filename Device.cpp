@@ -99,10 +99,6 @@ void Device::beginSesh() {
     sessionDuration = 0;
     numberOfRound = 1;
     isSeshPaused = true;
-
-    /// Move to playSesh()
-    // timer->start(1000);
-
 }
 
 void Device::updateRound() {
@@ -123,6 +119,7 @@ void Device::endSesh() {
     savedSessions.append(currentSession);
     currentSession = nullptr;
     isSeshPaused = true;
+    mainWindow->session_ended();
 }
 
 void Device::turnOffDevice()    // turning off device function: update battery value in file from variable - disable device view only
@@ -142,6 +139,16 @@ void Device::pauseSesh() {
     if(currentSession) {
         isSeshPaused = true;
         timer->stop();
+    }
+}
+
+void Device::stopSesh() {
+    if(currentSession) {
+        timer->stop();
+        /// Do we do this here?
+        // currentSession->endSession();
+        currentSession = nullptr;
+        isSeshPaused = true;
     }
 }
 

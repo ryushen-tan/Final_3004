@@ -146,6 +146,7 @@ void MainWindow::on_newSession_clicked()
     ui->menuView->setDisabled(true);
     ui->timeAndDateView->setDisabled(true);
     ui->sessionLogsView->setDisabled(true);
+    ui->menu->setDisabled(true);
     //ui->play->setDisabled(true);
 
     //TODO: reset timer and progress bar
@@ -200,6 +201,7 @@ void MainWindow::on_play_clicked()
 
 void MainWindow::on_stop_clicked()
 {
+    device->stopSesh();
     //TODO: stop session, erase all current session info.
     ui->menuView->setEnabled(true);
     ui->timeAndDateView->setDisabled(true);
@@ -323,4 +325,9 @@ void MainWindow::clearGraph()
 void MainWindow::on_logList_currentIndexChanged(const QString &arg1)
 {
     ui->logView->setText(arg1);
+}
+
+void MainWindow::session_ended() {
+    ui->menu->setEnabled(true);
+    on_menu_clicked();
 }

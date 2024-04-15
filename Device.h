@@ -45,6 +45,7 @@ public:
     void powerButton();
     void pauseSesh();
     void playSesh();
+    void stopSesh();
 
     void calculateDominantFreq();
     void applyTreatment();

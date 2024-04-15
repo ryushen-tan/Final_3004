@@ -32,6 +32,7 @@ public:
 
     void update_session_timer(int time);
     void power_off();
+    void session_ended();
 
 public slots:
 
