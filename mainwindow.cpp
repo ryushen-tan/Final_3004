@@ -147,15 +147,13 @@ void MainWindow::on_newSession_clicked()
     ui->menuView->setDisabled(true);
     ui->timeAndDateView->setDisabled(true);
     ui->sessionLogsView->setDisabled(true);
-    //ui->play->setDisabled(true);
 
-    //TODO: reset timer and progress bar
+    if (!device->hasContact) {
+        ui->play->setDisabled(true);
+        //instruct user to get headset and connect. Allow user to press start once connection is logged
+        std::cout << "connect your headset to start" << std::endl;
+    }
 
-    //instruct user to get headset and connect. Allow user to press start once connection is logged
-
-
-    // start a new session on the device
-    device->beginSesh();
 
 }
 
@@ -193,7 +191,9 @@ void MainWindow::on_play_clicked()
         std::cout << "play\nchecked play is now false" << std::endl;
     }
     else {
-        //TODO: play session UI
+        //TODO FOR STEPHEN: handle case where play has been pressed after the session has been paused
+        device->beginSesh();
+
         checked_play = true;    // set button ready to pause when next clicked
         std::cout << "checked play is now true" << std::endl;
     }
@@ -265,6 +265,10 @@ void MainWindow::on_noBattery_clicked()
 void MainWindow::on_contact_clicked()
 {
     if (checked_headsetContact) {
+        if (ui->newSessionView->isEnabled()) {
+            //TODO: pause session, wait 5 seconds
+
+        }
         int currSiteIndex = ui->sitePlotComboBox->currentIndex();
         
         // Disconnect signal from current site
@@ -276,6 +280,10 @@ void MainWindow::on_contact_clicked()
     else {
         // Calling generate signal function in EEGHeadset to test
         device->initiateContact();
+        if (ui->newSessionView->isEnabled()) {
+            // enable play button
+            ui->play->setEnabled(true);
+        }
         checked_headsetContact = true; // set button ready to disconnect when next clicked
         std::cout << "checked headset contact is now true\n ready to connect" << std::endl;
     }
