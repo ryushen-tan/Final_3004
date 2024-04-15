@@ -159,6 +159,8 @@ void MainWindow::on_newSession_clicked()
 
 void MainWindow::on_sessionLogs_clicked()
 {
+    QVector<QString> logList = device->readSessionHistory();
+    QStringList list = QStringList::fromVector(logList);
     //switch to session logs device view
     ui->sessionLogsView->setEnabled(true);
     ui->menuView->setDisabled(true);
@@ -166,7 +168,7 @@ void MainWindow::on_sessionLogs_clicked()
     ui->newSessionView->setDisabled(true);
 
     //display logs, allow scrolling through the logs
-    ui->sessionsLogWidget->addItems(datesAndTimes);
+    ui->sessionsLogWidget->addItems(list);
 }
 
 
@@ -218,6 +220,15 @@ void MainWindow::on_submitTime_clicked()
 
 void MainWindow::on_connectPc_clicked()
 {
+    QVector<QString> logList = device->readSessionHistory();
+    QStringList dateList;
+    for (const QString& element : logList) {
+        QStringList parts = element.split(';');
+        if (parts.size() > 0) {
+            QString date = parts.at(0).trimmed();
+            dateList.append(date);
+        }
+    }
     //default state: false (not connected to PC)
     if (checked_connectPC) {
         //disconnect from PC
@@ -230,7 +241,7 @@ void MainWindow::on_connectPc_clicked()
 
         //dummy list of log dates and times
 
-        ui->logList->addItems(datesAndTimes);   //add list to dropdown
+        ui->logList->addItems(dateList);   //add list to dropdown
 
         checked_connectPC = true;   // set button ready to connect when next clicked
         std::cout << "checked connect pc is now true \n ready to connect" << std::endl;
