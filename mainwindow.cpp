@@ -269,10 +269,8 @@ void MainWindow::on_contact_clicked()
             //TODO: pause session, wait 5 seconds
 
         }
-        int currSiteIndex = ui->sitePlotComboBox->currentIndex();
-        
-        // Disconnect signal from current site
-        disconnect(device->sites[currSiteIndex], &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
+        // Stop signal generation and is no longer in contact
+        device->stopContact();
 
         checked_headsetContact = false;  // set button ready to connect when next clicked
         std::cout << "checked headset contact is now false\n ready to disconnect" << std::endl;
@@ -321,8 +319,6 @@ void MainWindow::updateSiteToPlot(int index)
 
         // reset time when switching sites
         plotTime = 0.0;
-
-        disconnect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
 
         connect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
         series->clear();
