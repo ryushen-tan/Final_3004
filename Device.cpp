@@ -84,9 +84,20 @@ void Device::initiateContact()
     generateSignals();
 }
 
+void Device::stopContact()
+{
+    hasContact = false;
+
+    // Stop all sites from generating signals
+    for (int i = 0; i < EEG_SITES; ++i)
+    {
+        sites[i]->stopSignalGeneration();
+    }
+}
+
 void Device::generateSignals()
 {
-    for (int i = 0; i < EEG_SITES; i++)
+    for (int i = 0; i < EEG_SITES; ++i)
     {
         sites[i]->generateSignal();
     }
@@ -110,6 +121,15 @@ void Device::updateRound() {
             endSesh();
             return;
         }
+    }
+}
+
+void Device::pauseSesh() {
+    //TODO FOR STEPHEN: handle case where play has been pressed after the session has been paused
+    // you can use device variables     int remainingTime and bool hasBeenPaused
+    if(timer->isActive()) {
+//        timer->stop();
+//        timer->remainingTimeAsDuration();
     }
 }
 

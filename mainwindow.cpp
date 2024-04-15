@@ -146,16 +146,13 @@ void MainWindow::on_newSession_clicked()
     ui->menuView->setDisabled(true);
     ui->timeAndDateView->setDisabled(true);
     ui->sessionLogsView->setDisabled(true);
-    ui->menu->setDisabled(true);
-    //ui->play->setDisabled(true);
 
-    //TODO: reset timer and progress bar
+    if (!device->hasContact) {
+        ui->play->setDisabled(true);
+        //instruct user to get headset and connect. Allow user to press start once connection is logged
+        std::cout << "connect your headset to start" << std::endl;
+    }
 
-    //instruct user to get headset and connect. Allow user to press start once connection is logged
-
-
-    // start a new session on the device
-    device->beginSesh();
 
 }
 
@@ -192,7 +189,7 @@ void MainWindow::on_play_clicked()
         std::cout << "play\nchecked play is now false" << std::endl;
     }
     else {
-        //TODO: play session UI
+        ui->menu->setDisabled(true);
         device->playSesh();    // set button ready to pause when next clicked
         std::cout << "checked play is now true" << std::endl;
     }
@@ -265,13 +262,24 @@ void MainWindow::on_noBattery_clicked()
 void MainWindow::on_contact_clicked()
 {
     if (checked_headsetContact) {
+        if (ui->newSessionView->isEnabled()) {
+            //TODO: pause session, wait 5 seconds
+
+        }
+        // Stop signal generation and is no longer in contact
+        device->stopContact();
+
         checked_headsetContact = false;  // set button ready to connect when next clicked
         std::cout << "checked headset contact is now false\n ready to disconnect" << std::endl;
     }
     else {
         // Calling generate signal function in EEGHeadset to test
         device->initiateContact();
-        checked_headsetContact = false; // set button ready to disconnect when next clicked
+        if (ui->newSessionView->isEnabled()) {
+            // enable play button
+            ui->play->setEnabled(true);
+        }
+        checked_headsetContact = true; // set button ready to disconnect when next clicked
         std::cout << "checked headset contact is now true\n ready to connect" << std::endl;
     }
 
@@ -308,8 +316,6 @@ void MainWindow::updateSiteToPlot(int index)
 
         // reset time when switching sites
         plotTime = 0.0;
-
-        disconnect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
 
         connect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
         series->clear();

@@ -36,11 +36,15 @@ public:
 
     int batteryLevel;
     bool powerStatus;
+    bool hasContact;
+    int remainingTime;
+    bool hasBeenPaused;
 
     bool isSeshPaused;
 
     void setTime(const QDateTime &dt);
     void beginSesh();
+    void pauseSesh();
     void endSesh();
     void powerButton();
     void pauseSesh();
@@ -53,6 +57,7 @@ public:
     void setBattery(int);
 
     void initiateContact();
+    void stopContact();
     void generateSignals();
 
     void turnOffDevice();
@@ -61,7 +66,6 @@ public:
 
 private:
     QVector<QString> currSeshInfo;
-    bool hasContact;
 
     MainWindow* mainWindow;
     int sessionDuration;

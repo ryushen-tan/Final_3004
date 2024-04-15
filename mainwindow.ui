@@ -19,8 +19,8 @@
      <rect>
       <x>840</x>
       <y>10</y>
-      <width>571</width>
-      <height>301</height>
+      <width>561</width>
+      <height>231</height>
      </rect>
     </property>
     <property name="title">
@@ -513,6 +513,19 @@ with PC</string>
     </property>
     <property name="text">
      <string>Clear</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="runScenarioView">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>250</y>
+      <width>561</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Run Scenario View</string>
     </property>
    </widget>
   </widget>

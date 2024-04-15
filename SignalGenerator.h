@@ -14,7 +14,10 @@
  * - double angle:
  *
  * Class functions:
- *
+ * - SignalGenerator(QObject* parent = nullptr): Constructor for the SignalGenerator class
+ * - void start(): Starts the timer to generate the signal
+ * - void stop(): Stops the timer from generating the signal
+ * - void generateEEGSignal(): Generates the EEG signal
  */
 
 class SignalGenerator : public QObject
