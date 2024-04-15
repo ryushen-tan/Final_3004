@@ -47,6 +47,7 @@ public:
     void setBattery(int);
 
     void initiateContact();
+    void stopContact();
     void generateSignals();
 
     void turnOffDevice();
