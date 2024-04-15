@@ -44,7 +44,6 @@ public:
 
     void setTime(const QDateTime &dt);
     void beginSesh();
-    void pauseSesh();
     void endSesh();
     void powerButton();
     void pauseSesh();
