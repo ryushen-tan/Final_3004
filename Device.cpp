@@ -114,6 +114,15 @@ void Device::updateRound() {
     }
 }
 
+void Device::pauseSesh() {
+    //TODO FOR STEPHEN: handle case where play has been pressed after the session has been paused
+    // you can use device variables     int remainingTime and bool hasBeenPaused
+    if(timer->isActive()) {
+//        timer->stop();
+//        timer->remainingTimeAsDuration();
+    }
+}
+
 void Device::endSesh() {
     timer->stop();
     currentSession->endSession();
