@@ -67,14 +67,14 @@ double EEGSite::getRandomInRange(double min, double max)
 
 double EEGSite::getDominantFrequency()
 {
-    dominantFreq = calculateDominantFrequency(signalGenerator->getDeltaAmplitude(), signalGenerator->getThetaAmplitude(), signalGenerator->getAlphaAmplitude(), signalGenerator->getBetaAmplitude(), signalGenerator->getDeltaFrequency(), signalGenerator->getThetaFrequency(), signalGenerator->getAlphaFrequency(), signalGenerator->getBetaFrequency());
+    dominantFreq = calculateDominantFrequency();
     return dominantFreq;
 }
 
 
-double EEGSite::calculateDominantFrequency(double deltaAmp, double thetaAmp, double alphaAmp, double betaAmp, double deltaFreq, double thetaFreq, double alphaFreq, double betaFreq)
+double EEGSite::calculateDominantFrequency()
 {
-    return (deltaFreq * pow(deltaAmp, 2) + thetaFreq * pow(thetaAmp, 2) + alphaFreq * pow(alphaAmp, 2) + betaFreq * pow(betaAmp, 2)) / (pow(deltaAmp, 2) + pow(thetaAmp, 2) + pow(alphaAmp, 2) + pow(betaAmp, 2));
+    return (signalGenerator->getDeltaFrequency() * pow(signalGenerator->getDeltaAmplitude(), 2) + signalGenerator->getThetaFrequency() * pow(signalGenerator->getThetaAmplitude(), 2) + signalGenerator->getAlphaFrequency() * pow(signalGenerator->getAlphaAmplitude(), 2) + signalGenerator->getBetaFrequency() * pow(signalGenerator->getBetaAmplitude(), 2)) / (pow(signalGenerator->getDeltaAmplitude(), 2) + pow(signalGenerator->getThetaAmplitude(), 2) + pow(signalGenerator->getAlphaAmplitude(), 2) + pow(signalGenerator->getBetaAmplitude(), 2));
 }
 
 void EEGSite::applyOffset(double offset, double dominantFreq)

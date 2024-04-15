@@ -19,7 +19,7 @@
  * - generateSignal(): To generate the EEG signal
  * - stopSignalGeneration(): To stop the signal generation
  * - signalGenerated(double): Slot to handle the signal generated
- * - calculateDominantFrequency(double, double, double, double, double, double, double, double): To calculate the dominant frequency
+ * - calculateDominantFrequency(): To calculate the dominant frequency
  * - getDominantFrequency(): To get the dominant frequency
  * - applyOffset(double, double): To apply an offset to the signal for treatment
  * - getRandomInRange(double, double): Helper function to get a random number in a range
@@ -44,7 +44,7 @@ private:
     SignalGenerator* signalGenerator;
     double dominantFreq;  // To store the dominant frequency
 
-    double calculateDominantFrequency(double, double, double, double, double, double, double, double);
+    double calculateDominantFrequency();
     double getDominantFrequency();
     void applyOffset(double, double);
 
