@@ -16,6 +16,7 @@ using namespace std;
 
 #define ROUND_LEN 6
 #define MAX_DUR 29
+#define SESH_UPDATE_FRQ 1000
 
 class MainWindow; // Forward declaration
 class SessionInfo;
@@ -36,10 +37,14 @@ public:
     int batteryLevel;
     bool powerStatus;
 
+    bool isSeshPaused;
+
     void setTime(const QDateTime &dt);
     void beginSesh();
     void endSesh();
     void powerButton();
+    void pauseSesh();
+    void playSesh();
 
     void calculateDominantFreq();
     void applyTreatment();
@@ -50,6 +55,8 @@ public:
     void generateSignals();
 
     void turnOffDevice();
+
+    bool getIsSeshPaused();
 
 private:
     QVector<QString> currSeshInfo;

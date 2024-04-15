@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     device = new Device(this);
     checked_power = false;
-    checked_play = false;
     checked_connectPC = false;
     checked_headsetContact = false;
 
@@ -186,15 +185,14 @@ void MainWindow::on_setTimeAndDate_clicked()
 void MainWindow::on_play_clicked()
 {
     //default state: pause (not checked)
-    if (checked_play) {
+    if (!device->getIsSeshPaused()) {
         //TODO: pause session UI
-
-        checked_play = false;   // set button ready to play when next clicked
+        device->pauseSesh(); // set button ready to play when next clicked
         std::cout << "play\nchecked play is now false" << std::endl;
     }
     else {
         //TODO: play session UI
-        checked_play = true;    // set button ready to pause when next clicked
+        device->playSesh();    // set button ready to pause when next clicked
         std::cout << "checked play is now true" << std::endl;
     }
 }
