@@ -276,7 +276,7 @@ void MainWindow::on_contact_clicked()
     else {
         // Calling generate signal function in EEGHeadset to test
         device->initiateContact();
-        checked_headsetContact = false; // set button ready to disconnect when next clicked
+        checked_headsetContact = true; // set button ready to disconnect when next clicked
         std::cout << "checked headset contact is now true\n ready to connect" << std::endl;
     }
 
