@@ -243,7 +243,7 @@ with PC</string>
        </rect>
       </property>
       <property name="text">
-       <string>29</string>
+       <string>0</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

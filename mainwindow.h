@@ -32,6 +32,7 @@ public:
 
     void update_session_timer(int time);
     void power_off();
+    void session_ended();
 
 public slots:
 
@@ -74,7 +75,6 @@ private:
     Ui::MainWindow *ui;
     Device* device;
     bool checked_power;
-    bool checked_play;
     bool checked_connectPC;
     bool checked_headsetContact;
 

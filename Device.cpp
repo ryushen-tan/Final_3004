@@ -20,6 +20,7 @@ Device::Device(MainWindow* mw, QObject* parent) :
     }
 
     timer = new QTimer(this);
+    isSeshPaused = true;
     connect(timer, &QTimer::timeout, this, &Device::updateRound);
 
     sessionDuration = 0;
@@ -106,11 +107,9 @@ void Device::beginSesh() {
     //create a new session
     SessionInfo* newSession = new SessionInfo();
     currentSession = newSession;
-    savedSessions.append(newSession);
     sessionDuration = 0;
     numberOfRound = 1;
-    timer->start(1000);
-
+    isSeshPaused = true;
 }
 
 void Device::updateRound() {
@@ -137,7 +136,10 @@ void Device::pauseSesh() {
 void Device::endSesh() {
     timer->stop();
     currentSession->endSession();
+    savedSessions.append(currentSession);
     currentSession = nullptr;
+    isSeshPaused = true;
+    mainWindow->session_ended();
 }
 
 void Device::turnOffDevice()    // turning off device function: update battery value in file from variable - disable device view only
@@ -146,4 +148,29 @@ void Device::turnOffDevice()    // turning off device function: update battery v
     mainWindow->power_off();
 }
 
+void Device::playSesh() {
+    if(currentSession) {
+        isSeshPaused = false;
+        timer->start(SESH_UPDATE_FRQ);
+    }
+}
+
+void Device::pauseSesh() {
+    if(currentSession) {
+        isSeshPaused = true;
+        timer->stop();
+    }
+}
+
+void Device::stopSesh() {
+    if(currentSession) {
+        timer->stop();
+        /// Do we do this here?
+        // currentSession->endSession();
+        currentSession = nullptr;
+        isSeshPaused = true;
+    }
+}
+
+bool Device::getIsSeshPaused() { return isSeshPaused; }
 

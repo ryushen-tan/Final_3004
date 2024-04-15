@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     device = new Device(this);
     checked_power = false;
-    checked_play = false;
     checked_connectPC = false;
     checked_headsetContact = false;
 
@@ -184,17 +183,14 @@ void MainWindow::on_setTimeAndDate_clicked()
 void MainWindow::on_play_clicked()
 {
     //default state: pause (not checked)
-    if (checked_play) {
+    if (!device->getIsSeshPaused()) {
         //TODO: pause session UI
-
-        checked_play = false;   // set button ready to play when next clicked
+        device->pauseSesh(); // set button ready to play when next clicked
         std::cout << "play\nchecked play is now false" << std::endl;
     }
     else {
-        //TODO FOR STEPHEN: handle case where play has been pressed after the session has been paused
-        device->beginSesh();
-
-        checked_play = true;    // set button ready to pause when next clicked
+        ui->menu->setDisabled(true);
+        device->playSesh();    // set button ready to pause when next clicked
         std::cout << "checked play is now true" << std::endl;
     }
 }
@@ -202,6 +198,7 @@ void MainWindow::on_play_clicked()
 
 void MainWindow::on_stop_clicked()
 {
+    device->stopSesh();
     //TODO: stop session, erase all current session info.
     ui->menuView->setEnabled(true);
     ui->timeAndDateView->setDisabled(true);
@@ -334,4 +331,9 @@ void MainWindow::clearGraph()
 void MainWindow::on_logList_currentIndexChanged(const QString &arg1)
 {
     ui->logView->setText(arg1);
+}
+
+void MainWindow::session_ended() {
+    ui->menu->setEnabled(true);
+    on_menu_clicked();
 }
