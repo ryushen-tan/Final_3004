@@ -165,3 +165,34 @@ void Device::stopSesh() {
 
 bool Device::getIsSeshPaused() { return isSeshPaused; }
 
+void Device::saveSession(QDateTime date, float baselineBefore, float baselineAfter){
+    QString filename = "sessionRecords.txt";
+    QFile file(filename);
+    if (file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << (date.toString()) << ";" << baselineBefore << ";" << baselineAfter << Qt::endl;
+            file.close();
+            qDebug() << "Data saved to file:" << filename;
+        } else {
+            qDebug() << "Error: Unable to open file" << filename << "for writing.";
+        }
+}
+
+QVector<QString> Device::readSessionHistory(){
+    QVector<QString> ret;
+    QString filename = "sessionRecords.txt";
+
+    QFile file(filename);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            ret.append(line);
+        }
+        file.close();
+        qDebug() << "Data read from file:" << filename;
+    } else {
+        qDebug() << "Error: Unable to open file" << filename << "for reading.";
+    }
+    return ret;
+}
