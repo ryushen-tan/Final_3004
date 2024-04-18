@@ -75,6 +75,8 @@ private:
     int sessionDuration;
     int numberOfRound;
 
+    double calculateBaseline();
+
 private slots:
     void updateRound();
 };

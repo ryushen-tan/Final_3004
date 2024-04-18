@@ -33,6 +33,8 @@ public:
     void generateSignal();
     void stopSignalGeneration();
 
+    double getDominantFrequency();
+
 signals:
     void signalGenerated(double value);
 
@@ -45,7 +47,6 @@ private:
     double dominantFreq;  // To store the dominant frequency
 
     double calculateDominantFrequency();
-    double getDominantFrequency();
     void applyOffset(double, double);
 
     double getRandomInRange(double, double);

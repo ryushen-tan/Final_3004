@@ -175,7 +175,19 @@ void Device::saveSession(QDateTime date, float baselineBefore, float baselineAft
             qDebug() << "Data saved to file:" << filename;
         } else {
             qDebug() << "Error: Unable to open file" << filename << "for writing.";
-        }
+    }
+}
+
+double Device::calculateOverallBaseline()
+{
+    double baseline = 0.0;
+
+    for(int i = 0; i < EEG_SITES; ++i)
+    {
+        baseline += sites[i]->getDominantFrequency();
+    }
+
+    return baseline;
 }
 
 QVector<QString> Device::readSessionHistory(){
