@@ -110,6 +110,9 @@ void Device::beginSesh() {
     sessionDuration = 0;
     numberOfRound = 1;
     isSeshPaused = true;
+
+    newSession->baselineBefore = calculateOverallBaseline();
+   qDebug() << newSession->baselineBefore;
 }
 
 void Device::updateRound() {
@@ -187,7 +190,7 @@ double Device::calculateOverallBaseline()
         baseline += sites[i]->getDominantFrequency();
     }
 
-    return baseline;
+    return baseline / EEG_SITES;
 }
 
 QVector<QString> Device::readSessionHistory(){

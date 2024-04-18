@@ -16,6 +16,8 @@ using namespace std;
 #include "EEGSite.h"
 #include "SessionInfo.h"
 
+#include <QDebug>
+
 #define ROUND_LEN 6
 #define MAX_DUR 29
 #define SESH_UPDATE_FRQ 1000
@@ -75,7 +77,7 @@ private:
     int sessionDuration;
     int numberOfRound;
 
-    double calculateBaseline();
+    double calculateOverallBaseline();
 
 private slots:
     void updateRound();
