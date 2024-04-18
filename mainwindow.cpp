@@ -152,8 +152,6 @@ void MainWindow::on_newSession_clicked()
         //instruct user to get headset and connect. Allow user to press start once connection is logged
         std::cout << "connect your headset to start" << std::endl;
     }
-
-
 }
 
 
