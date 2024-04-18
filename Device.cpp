@@ -158,8 +158,6 @@ void Device::pauseSesh() {
 void Device::stopSesh() {
     //if(currentSession) {
         timer->stop();
-        /// Do we do this here?
-        currentSession->endSession();
         currentSession = nullptr;
         isSeshPaused = true;
     //}
