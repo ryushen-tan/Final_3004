@@ -87,6 +87,6 @@ private:
     QValueAxis* axisY;
 
     EEGSite* currSite;
-    static qreal plotTime;
+    qreal plotTime;
 };
 #endif // MAINWINDOW_H

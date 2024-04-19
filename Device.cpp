@@ -121,6 +121,9 @@ void Device::updateRound() {
             roundTimer = 0;
             roundNumber += 1; // Increment round first
 
+            // clear graph so we can see the signal during analysis and treatment
+            mainWindow->clearGraph();
+
             if(roundNumber < 5) {
                 treatmentOffset += 5.0; // Increment Offet for 5hz,10hz,15hz,20hz treatments
             }
@@ -131,6 +134,9 @@ void Device::updateRound() {
             }
 
             // Final analysis round,  no treatment
+            if(roundNumber == 5) {
+                currentSession->baselineAfter = calculateOverallBaseline();
+            }
         }
         sessionDuration += 1;
         roundTimer += 1;
@@ -138,8 +144,6 @@ void Device::updateRound() {
 
         // After 5 sec analysis, do 1 sec treatment to all sites
         if(roundTimer == 5 && roundNumber < 5) {
-            // clear graph so we can see treated signal
-            mainWindow->clearGraph();
             applyTreatment();
         }
 
@@ -157,6 +161,9 @@ void Device::endSesh() {
     currentSession->endSession();
     savedSessions.append(currentSession);
     saveSession(currTime, currentSession->baselineBefore, currentSession->baselineAfter);
+    qDebug() << currentSession->baselineBefore;
+    qDebug() << currentSession->baselineAfter;
+
     currentSession = nullptr;
     isSeshPaused = true;
     mainWindow->session_ended();
@@ -220,13 +227,13 @@ double Device::calculateOverallBaseline()
 
 void Device::applyTreatment()
 {
-//    for(int i = 0; i < EEG_SITES; ++i)
-//    {
-
-//    }
+    for(int i = 0; i < EEG_SITES; ++i)
+    {
+        sites[i]->startApplyingOffset(treatmentOffset);
+    }
 
     // Test on site 1
-    sites[0]->startApplyingOffset(treatmentOffset);
+    // sites[0]->startApplyingOffset(treatmentOffset);
 }
 
 QVector<QString> Device::readSessionHistory(){

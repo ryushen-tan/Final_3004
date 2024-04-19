@@ -1,11 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-qreal MainWindow::plotTime = 0.0;
-
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow),
+      plotTime(0.0)
 {
     ui->setupUi(this);
 
@@ -26,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setParent(ui->signalPlotFrame);
-    chartView->setFixedSize(900, 350);
+    chartView->setFixedSize(910, 350);
 
     axisX = new QValueAxis();
     chart->addAxis(axisX, Qt::AlignBottom);
@@ -36,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     axisY = new QValueAxis();
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
-    axisY->setRange(-20,20);
+    axisY->setRange(-15,15);
 
     // site combo bbox
     for (int i = 1; i <= EEG_SITES; ++i) {
@@ -282,6 +281,9 @@ void MainWindow::on_contact_clicked()
         std::cout << "checked headset contact is now false\n ready to disconnect" << std::endl;
     }
     else {
+        // clear the signal plot first
+        clearGraph();
+
         // Calling generate signal function in EEGHeadset to test
         device->initiateContact();
         if (ui->newSessionView->isEnabled()) {
@@ -314,7 +316,7 @@ void MainWindow::plotEEGSignal(double value)
     qreal sampleRate = SAMPLING_RATE;
     plotTime += 1.0 / sampleRate;
 
-    //axisX->setRange(0, plotTime);
+    axisX->setRange(0, plotTime);
 }
 
 void MainWindow::updateSiteToPlot(int index)

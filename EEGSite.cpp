@@ -34,10 +34,10 @@ void EEGSite::stopApplyingOffset()
 void EEGSite::generateSignal()
 {
     // Generate random amplitudes for each band
-    double deltaAmp = getRandomInRange(0.0, 5.0);
-    double thetaAmp = getRandomInRange(0.0, 5.0);
-    double alphaAmp = getRandomInRange(0.0, 5.0);
-    double betaAmp = getRandomInRange(0.0, 5.0);
+    double deltaAmp = getRandomInRange(1.0, 5.0);
+    double thetaAmp = getRandomInRange(1.0, 5.0);
+    double alphaAmp = getRandomInRange(1.0, 5.0);
+    double betaAmp = getRandomInRange(1.0, 5.0);
 
     // Generate random frequencies for each band
     double deltaFreq = getRandomInRange(1.0, 4.0);
