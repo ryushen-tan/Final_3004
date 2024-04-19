@@ -128,6 +128,7 @@ void Device::endSesh() {
     timer->stop();
     currentSession->endSession();
     savedSessions.append(currentSession);
+    saveSession(currTime, currentSession->baselineBefore, currentSession->baselineAfter);
     currentSession = nullptr;
     isSeshPaused = true;
     mainWindow->session_ended();
@@ -140,27 +141,26 @@ void Device::turnOffDevice()    // turning off device function: update battery v
 }
 
 void Device::playSesh() {
-    if(currentSession) {
-        isSeshPaused = false;
-        timer->start(SESH_UPDATE_FRQ);
+    if(!currentSession) {
+        beginSesh();
     }
+    isSeshPaused = false;
+    timer->start(SESH_UPDATE_FRQ);
 }
 
 void Device::pauseSesh() {
-    if(currentSession) {
+    //if(currentSession) {
         isSeshPaused = true;
         timer->stop();
-    }
+    //}
 }
 
 void Device::stopSesh() {
-    if(currentSession) {
+    //if(currentSession) {
         timer->stop();
-        /// Do we do this here?
-        // currentSession->endSession();
         currentSession = nullptr;
         isSeshPaused = true;
-    }
+    //}
 }
 
 bool Device::getIsSeshPaused() { return isSeshPaused; }
