@@ -6,8 +6,8 @@ class SessionInfo
 {
 public:
     SessionInfo();
-    float baselineBefore;
-    float baselineAfter;
+    double baselineBefore;
+    double baselineAfter;
     void endSession();
 };
 
