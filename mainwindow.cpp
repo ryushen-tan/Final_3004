@@ -333,6 +333,9 @@ void MainWindow::updateSiteToPlot(int index)
 
 void MainWindow::clearGraph()
 {
+    // reset time
+    plotTime = 0.0;
+
     series->clear();
 }
 

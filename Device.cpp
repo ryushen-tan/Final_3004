@@ -112,7 +112,7 @@ void Device::beginSesh() {
     isSeshPaused = true;
 
     newSession->baselineBefore = calculateOverallBaseline();
-   qDebug() << newSession->baselineBefore;
+    qDebug() << newSession->baselineBefore;
 }
 
 void Device::updateRound() {
