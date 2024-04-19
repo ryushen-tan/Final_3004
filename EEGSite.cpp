@@ -103,19 +103,19 @@ void EEGSite::applyOffset()
     double newOffset = (dominantFrequency + offset) / 16.0;
 
     // check which frequency band is dominant and apply offset to that band
-    if(dominantFrequency >= signalGenerator->getDeltaFrequency() && dominantFrequency < signalGenerator->getThetaFrequency())
+    if(dominantFrequency < 4.0)
     {
         signalGenerator->setDeltaFrequency(signalGenerator->getDeltaFrequency() + newOffset);
     }
-    else if(dominantFrequency >= signalGenerator->getThetaFrequency() && dominantFrequency < signalGenerator->getAlphaFrequency())
+    else if(dominantFrequency < 8.0)
     {
         signalGenerator->setThetaFrequency(signalGenerator->getThetaFrequency() + newOffset);
     }
-    else if(dominantFrequency >= signalGenerator->getAlphaFrequency() && dominantFrequency < signalGenerator->getBetaFrequency())
+    else if(dominantFrequency < 12.0)
     {
         signalGenerator->setAlphaFrequency(signalGenerator->getAlphaFrequency() + newOffset);
     }
-    else if(dominantFrequency >= signalGenerator->getBetaFrequency())
+    else
     {
         signalGenerator->setBetaFrequency(signalGenerator->getBetaFrequency() + newOffset);
     }

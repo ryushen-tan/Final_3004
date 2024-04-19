@@ -128,12 +128,12 @@ void Device::updateRound() {
                 treatmentOffset += 5.0; // Increment Offet for 5hz,10hz,15hz,20hz treatments
             }
 
-            // Only get overall baseline and store it in baselineBeefore during round 1
+            // Round 1: calculate and save overall baseline for baselineBefore
             if (roundNumber == 1) {
                 currentSession->baselineBefore = calculateOverallBaseline();
             }
 
-            // Final analysis round,  no treatment
+            // Final analysis round: calculate and save overall baseline for baselineAfter during
             if(roundNumber == 5) {
                 currentSession->baselineAfter = calculateOverallBaseline();
             }
@@ -142,7 +142,7 @@ void Device::updateRound() {
         roundTimer += 1;
         mainWindow->update_session_timer(sessionDuration);
 
-        // After 5 sec analysis, do 1 sec treatment to all sites
+        // After 5 sec analysis, do 1 sec treatment to all sites for the 4 rounds
         if(roundTimer == 5 && roundNumber < 5) {
             applyTreatment();
         }
@@ -231,9 +231,6 @@ void Device::applyTreatment()
     {
         sites[i]->startApplyingOffset(treatmentOffset);
     }
-
-    // Test on site 1
-    // sites[0]->startApplyingOffset(treatmentOffset);
 }
 
 QVector<QString> Device::readSessionHistory(){
