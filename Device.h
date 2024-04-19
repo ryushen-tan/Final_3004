@@ -54,9 +54,6 @@ public:
     void playSesh();
     void stopSesh();
 
-    void calculateDominantFreq();
-    void applyTreatment();
-
     void setBattery(int);
 
     void initiateContact();
@@ -70,6 +67,9 @@ public:
     QVector<QString> readSessionHistory();
     void saveSession(QDateTime date, float baselineBefore, float baselineAfter);
 
+private slots:
+    void updateRound(); // Connected to QTimer
+
 private:
     QVector<QString> currSeshInfo;
 
@@ -77,10 +77,10 @@ private:
     int sessionDuration;
     int roundTimer;
     int roundNumber;
+    double treatmentOffset;
 
+    // Therapy Process Functions
     double calculateOverallBaseline();
-
-private slots:
-    void updateRound();
+    void applyTreatment();
 };
 #endif // DEVICE_H

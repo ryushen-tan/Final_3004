@@ -1,12 +1,34 @@
 #include "EEGSite.h"
 
-EEGSite::EEGSite() {
-    EEGSignalBuffer = new QVector<double>();
-    dominantFrequency = 0.0;
+EEGSite::EEGSite(QObject* parent) : QObject(parent), dominantFrequency(0.0), offset(0.0)
+{
+    // Initialize timer
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &EEGSite::applyOffset);
 
     // Initialze and connect signal generator
     signalGenerator = new SignalGenerator();
     connect(signalGenerator, &SignalGenerator::signalGenerated, this, &EEGSite::handleSignal);
+}
+
+void EEGSite::startApplyingOffset(double offset)
+{
+    qDebug() << "Applying offset to the dominant frequency: " << dominantFrequency << " by " << dominantFrequency << "Hz + " << offset << "Hz";
+
+    this->offset = offset;
+
+    // Start applying offset every 1/16th of a second
+    timer->start(62);
+    QTimer::singleShot(1000, this, &EEGSite::stopApplyingOffset);
+}
+
+void EEGSite::stopApplyingOffset()
+{
+    // After applying offset to frequency, calculate and store the new dominant frequency
+    dominantFrequency = calculateDominantFrequency();
+
+    // Stop applying offset
+    timer->stop();
 }
 
 void EEGSite::generateSignal()
@@ -76,11 +98,25 @@ double EEGSite::calculateDominantFrequency()
     return (signalGenerator->getDeltaFrequency() * pow(signalGenerator->getDeltaAmplitude(), 2) + signalGenerator->getThetaFrequency() * pow(signalGenerator->getThetaAmplitude(), 2) + signalGenerator->getAlphaFrequency() * pow(signalGenerator->getAlphaAmplitude(), 2) + signalGenerator->getBetaFrequency() * pow(signalGenerator->getBetaAmplitude(), 2)) / (pow(signalGenerator->getDeltaAmplitude(), 2) + pow(signalGenerator->getThetaAmplitude(), 2) + pow(signalGenerator->getAlphaAmplitude(), 2) + pow(signalGenerator->getBetaAmplitude(), 2));
 }
 
-void EEGSite::applyOffset(double offset, double dominantFreq)
+void EEGSite::applyOffset()
 {
-    // apply offset to the dominant frequency in the EEG signal
-    qDebug() << "Applying offset to the dominant frequency: " << dominantFreq << " by " << offset;
+    double newOffset = (dominantFrequency + offset) / 16.0;
 
-    // After applying offset to frequency, calculate and store the new dominant frequency
-    dominantFrequency = calculateDominantFrequency();
+    // check which frequency band is dominant and apply offset to that band
+    if(dominantFrequency >= signalGenerator->getDeltaFrequency() && dominantFrequency < signalGenerator->getThetaFrequency())
+    {
+        signalGenerator->setDeltaFrequency(signalGenerator->getDeltaFrequency() + newOffset);
+    }
+    else if(dominantFrequency >= signalGenerator->getThetaFrequency() && dominantFrequency < signalGenerator->getAlphaFrequency())
+    {
+        signalGenerator->setThetaFrequency(signalGenerator->getThetaFrequency() + newOffset);
+    }
+    else if(dominantFrequency >= signalGenerator->getAlphaFrequency() && dominantFrequency < signalGenerator->getBetaFrequency())
+    {
+        signalGenerator->setAlphaFrequency(signalGenerator->getAlphaFrequency() + newOffset);
+    }
+    else if(dominantFrequency >= signalGenerator->getBetaFrequency())
+    {
+        signalGenerator->setBetaFrequency(signalGenerator->getBetaFrequency() + newOffset);
+    }
 }
