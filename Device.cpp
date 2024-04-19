@@ -10,7 +10,10 @@ Device::Device(MainWindow* mw, QObject* parent) :
     currentSession(nullptr),
     batteryLevel(100), //TODO: get battery value from file & store in variable
     powerStatus(false),
-    hasContact(false)
+    hasContact(false),
+    sessionDuration(0),
+    roundTimer(0),
+    roundNumber(0)
 {
     mainWindow = mw;
 
@@ -22,9 +25,6 @@ Device::Device(MainWindow* mw, QObject* parent) :
     timer = new QTimer(this);
     isSeshPaused = true;
     connect(timer, &QTimer::timeout, this, &Device::updateRound);
-
-    sessionDuration = 0;
-    numberOfRound = 1;
 
 }
 
@@ -107,23 +107,34 @@ void Device::beginSesh() {
     //create a new session
     SessionInfo* newSession = new SessionInfo();
     currentSession = newSession;
-    sessionDuration = 0;
-    numberOfRound = 1;
-    isSeshPaused = true;
 
-    newSession->baselineBefore = calculateOverallBaseline();
-    qDebug() << newSession->baselineBefore;
+    // Reset for new session
+    sessionDuration = 0;
+    roundNumber = 0;
+    isSeshPaused = true;
 }
 
 void Device::updateRound() {
     if(currentSession) {
+        if (sessionDuration % ROUND_LEN == 0) {
+            roundNumber++; // Increment round first
+
+            // Only get overall baseline and store it in baselineBeefore during round 1
+            if (roundNumber == 1) {
+                currentSession->baselineBefore = calculateOverallBaseline();
+            }
+
+
+        }
+
         sessionDuration += 1;
-        numberOfRound = static_cast<int>(sessionDuration / ROUND_LEN);
         mainWindow->update_session_timer(sessionDuration);
         if(sessionDuration >= MAX_DUR) {
             endSesh();
             return;
         }
+
+
     }
 }
 

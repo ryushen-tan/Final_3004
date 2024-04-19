@@ -44,7 +44,7 @@ private slots:
 private:
     QVector<double> *EEGSignalBuffer;
     SignalGenerator* signalGenerator;
-    double dominantFreq;  // To store the dominant frequency
+    double dominantFrequency;  // To store the dominant frequency
 
     double calculateDominantFrequency();
     void applyOffset(double, double);

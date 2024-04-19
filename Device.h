@@ -10,17 +10,17 @@
 #include <iostream>
 #include <QVector>
 #include <QFile>
+#include <QDebug>
 
 using namespace std;
 
 #include "EEGSite.h"
 #include "SessionInfo.h"
 
-#include <QDebug>
-
 #define ROUND_LEN 6
 #define MAX_DUR 29
 #define SESH_UPDATE_FRQ 1000
+#define MAX_ROUNDS 4;
 
 class MainWindow; // Forward declaration
 class SessionInfo;
@@ -75,7 +75,8 @@ private:
 
     MainWindow* mainWindow;
     int sessionDuration;
-    int numberOfRound;
+    int roundTimer;
+    int roundNumber;
 
     double calculateOverallBaseline();
 
