@@ -13,14 +13,6 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(119, 118, 123);
-gridline-color: rgb(0, 0, 0);
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 1px solid black;
-text-align: center;</string>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="Admin">
     <property name="geometry">
@@ -81,9 +73,6 @@ text-align: center;</string>
        </item>
        <item row="2" column="1">
         <widget class="QPushButton" name="contact">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 255, 255);</string>
-         </property>
          <property name="text">
           <string>Contact</string>
          </property>
@@ -171,9 +160,6 @@ with PC</string>
       <height>471</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(222, 221, 218);</string>
-    </property>
     <property name="title">
      <string>Device View</string>
     </property>
@@ -212,9 +198,6 @@ with PC</string>
        <height>61</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
      <property name="text">
       <string>Menu</string>
      </property>
@@ -250,10 +233,6 @@ with PC</string>
         <height>25</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(87, 227, 137);
-color: rgb(255, 255, 255);</string>
-      </property>
       <property name="text">
        <string>Play/Pause</string>
       </property>
@@ -266,10 +245,6 @@ color: rgb(255, 255, 255);</string>
         <width>83</width>
         <height>25</height>
        </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(246, 97, 81);
-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>Stop</string>
@@ -329,9 +304,6 @@ color: rgb(255, 255, 255);</string>
        <width>71</width>
        <height>61</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Power
@@ -450,9 +422,6 @@ color: rgb(255, 255, 255);</string>
         <height>25</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
       <property name="text">
        <string>New Session</string>
       </property>
@@ -466,9 +435,6 @@ color: rgb(255, 255, 255);</string>
         <height>25</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
       <property name="text">
        <string>Session Logs</string>
       </property>
@@ -481,9 +447,6 @@ color: rgb(255, 255, 255);</string>
         <width>151</width>
         <height>25</height>
        </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>Set Time and Date</string>
@@ -646,7 +609,7 @@ color: rgb(0,0,0);</string>
      <x>0</x>
      <y>0</y>
      <width>1440</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuNeuroNet_UI">
