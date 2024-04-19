@@ -196,18 +196,14 @@ void Device::playSesh() {
 }
 
 void Device::pauseSesh() {
-    //if(currentSession) {
         isSeshPaused = true;
         timer->stop();
-    //}
 }
 
 void Device::stopSesh() {
-    //if(currentSession) {
         timer->stop();
         currentSession = nullptr;
         isSeshPaused = true;
-    //}
 }
 
 bool Device::getIsSeshPaused() { return isSeshPaused; }

@@ -68,7 +68,7 @@ public slots:
     void clearGraph();
 
 private slots:
-    void on_logList_currentIndexChanged(const QString &arg1);
+    void on_logList_currentIndexChanged(int);
 
 private:
     Ui::MainWindow *ui;
@@ -77,9 +77,6 @@ private:
     bool checked_connectPC;
     bool checked_headsetContact;
 
-
-//    QVector<QString> datesAndTimes;  //dummy log list
-    QStringList datesAndTimes;  //dummy log list
     QLineSeries* series;
     QChart* chart;
     QChartView* chartView;

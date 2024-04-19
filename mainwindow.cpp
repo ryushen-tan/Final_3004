@@ -49,25 +49,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->sitePlotComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::updateSiteToPlot);
 
-
-    //dummy log list, front end only *this should be populated from text file when we actually have one, using a for/while loop
-    datesAndTimes.append("jan 1, 2024 00:00:00");
-    datesAndTimes.append("jan 2, 2024 15:00:00");
-    datesAndTimes.append("apr 12, 2024 15:39:07");
-    datesAndTimes.append("up up down down left right left right a b");
-    datesAndTimes.append("5");
-    datesAndTimes.append("127fhjklselu");
-    datesAndTimes.append("however many it takes");
-    datesAndTimes.append("oct 22, 2024 17:14:35");
-    datesAndTimes.append("jan 1, 2024 00:00:00");
-    datesAndTimes.append("jan 2, 2024 15:00:00");
-    datesAndTimes.append("apr 12, 2024 15:39:07");
-    datesAndTimes.append("up up down down left right left right a b");
-    datesAndTimes.append("5");
-    datesAndTimes.append("127fhjklselu");
-    datesAndTimes.append("however many it takes");
-    datesAndTimes.append("oct 22, 2024 17:14:35");
-
     ui->menu->setDisabled(true);
     ui->menuView->setDisabled(true);
     ui->timeAndDateView->setDisabled(true);
@@ -157,7 +138,14 @@ void MainWindow::on_newSession_clicked()
 void MainWindow::on_sessionLogs_clicked()
 {
     QVector<QString> logList = device->readSessionHistory();
-    QStringList list = QStringList::fromVector(logList);
+    QStringList dateList;
+    for (const QString& element : logList) {
+        QStringList parts = element.split(';');
+        if (parts.size() > 0) {
+            QString date = parts.at(0).trimmed();
+            dateList.append(date);
+        }
+    }
     //switch to session logs device view
     ui->sessionLogsView->setEnabled(true);
     ui->menuView->setDisabled(true);
@@ -165,7 +153,8 @@ void MainWindow::on_sessionLogs_clicked()
     ui->newSessionView->setDisabled(true);
 
     //display logs, allow scrolling through the logs
-    ui->sessionsLogWidget->addItems(list);
+    ui->sessionsLogWidget->clear();
+    ui->sessionsLogWidget->addItems(dateList);
 }
 
 
@@ -237,7 +226,7 @@ void MainWindow::on_connectPc_clicked()
         ui->ComputerView->setEnabled(true);
 
         //dummy list of log dates and times
-
+        ui->logList->clear();
         ui->logList->addItems(dateList);   //add list to dropdown
 
         checked_connectPC = true;   // set button ready to connect when next clicked
@@ -342,9 +331,19 @@ void MainWindow::clearGraph()
 }
 
 
-void MainWindow::on_logList_currentIndexChanged(const QString &arg1)
+void MainWindow::on_logList_currentIndexChanged(int index)
 {
-    ui->logView->setText(arg1);
+    QVector<QString> logList = device->readSessionHistory();
+    QStringList list = QStringList::fromVector(logList);
+
+    QStringList parts = logList[index].split(';');
+    QString date = parts.at(0).trimmed();
+    QString beforeBaseline = parts.at(1).trimmed();
+    QString afterBaseline = parts.at(2).trimmed();
+
+    QString displayText = "Date + time: "+ date + "\nBaseline before treatment: " + beforeBaseline + "\nBaseline after treatment: " + afterBaseline;
+
+    ui->logView->setText(displayText);
 }
 
 void MainWindow::session_ended() {
