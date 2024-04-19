@@ -117,14 +117,26 @@ void Device::beginSesh() {
 
 void Device::updateRound() {
     if(currentSession) {
-        if (sessionDuration % ROUND_LEN == 0) {
+        // When no contact is detected, pause session
+        if (!hasContact) {
+            pauseSesh();
+
+            // Start 5 second timer and if there is still no contact, stop the session
+            QTimer::singleShot(5000, this, [this]() {
+                if(!hasContact) {
+                    mainWindow->on_stop_clicked();
+                }
+            });
+        }
+
+        if(sessionDuration % ROUND_LEN == 0) {
             roundTimer = 0;
             roundNumber += 1; // Increment round first
 
             // clear graph so we can see the signal during analysis and treatment
             mainWindow->clearGraph();
 
-            if(roundNumber < 5) {
+            if (roundNumber < 5) {
                 treatmentOffset += 5.0; // Increment Offet for 5hz,10hz,15hz,20hz treatments
             }
 
