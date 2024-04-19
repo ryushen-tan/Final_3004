@@ -10,6 +10,7 @@
 #include <iostream>
 #include <QVector>
 #include <QFile>
+#include <QDebug>
 
 using namespace std;
 
@@ -19,6 +20,7 @@ using namespace std;
 #define ROUND_LEN 6
 #define MAX_DUR 29
 #define SESH_UPDATE_FRQ 1000
+#define MAX_ROUNDS 4;
 
 class MainWindow; // Forward declaration
 class SessionInfo;
@@ -52,9 +54,6 @@ public:
     void playSesh();
     void stopSesh();
 
-    void calculateDominantFreq();
-    void applyTreatment();
-
     void setBattery(int);
 
     void initiateContact();
@@ -68,14 +67,20 @@ public:
     QVector<QString> readSessionHistory();
     void saveSession(QDateTime date, float baselineBefore, float baselineAfter);
 
+private slots:
+    void updateRound(); // Connected to QTimer
+
 private:
     QVector<QString> currSeshInfo;
 
     MainWindow* mainWindow;
     int sessionDuration;
-    int numberOfRound;
+    int roundTimer;
+    int roundNumber;
+    double treatmentOffset;
 
-private slots:
-    void updateRound();
+    // Therapy Process Functions
+    double calculateOverallBaseline();
+    void applyTreatment();
 };
 #endif // DEVICE_H

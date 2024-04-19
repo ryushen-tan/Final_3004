@@ -11,11 +11,10 @@
 #include <QLineSeries>
 #include <QString>
 #include <QStringList>
-
+#include <iostream>
 
 #include "Device.h"
 
-#include <iostream>
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -88,6 +87,6 @@ private:
     QValueAxis* axisY;
 
     EEGSite* currSite;
-    static qreal plotTime;
+    qreal plotTime;
 };
 #endif // MAINWINDOW_H

@@ -10,7 +10,11 @@ Device::Device(MainWindow* mw, QObject* parent) :
     currentSession(nullptr),
     batteryLevel(100), //TODO: get battery value from file & store in variable
     powerStatus(false),
-    hasContact(false)
+    hasContact(false),
+    sessionDuration(0),
+    roundTimer(0),
+    roundNumber(0),
+    treatmentOffset(0.0)
 {
     mainWindow = mw;
 
@@ -22,9 +26,6 @@ Device::Device(MainWindow* mw, QObject* parent) :
     timer = new QTimer(this);
     isSeshPaused = true;
     connect(timer, &QTimer::timeout, this, &Device::updateRound);
-
-    sessionDuration = 0;
-    numberOfRound = 1;
 
 }
 
@@ -107,20 +108,63 @@ void Device::beginSesh() {
     //create a new session
     SessionInfo* newSession = new SessionInfo();
     currentSession = newSession;
+
+    // Reset for new session
     sessionDuration = 0;
-    numberOfRound = 1;
+    roundNumber = 0;
     isSeshPaused = true;
 }
 
 void Device::updateRound() {
     if(currentSession) {
+        // When no contact is detected, pause session
+        if (!hasContact) {
+            pauseSesh();
+
+            // Start 5 second timer and if there is still no contact, stop the session
+            QTimer::singleShot(5000, this, [this]() {
+                if(!hasContact) {
+                    mainWindow->on_stop_clicked();
+                }
+            });
+        }
+
+        if(sessionDuration % ROUND_LEN == 0) {
+            roundTimer = 0;
+            roundNumber += 1; // Increment round first
+
+            // clear graph so we can see the signal during analysis and treatment
+            mainWindow->clearGraph();
+
+            if (roundNumber < 5) {
+                treatmentOffset += 5.0; // Increment Offet for 5hz,10hz,15hz,20hz treatments
+            }
+
+            // Round 1: calculate and save overall baseline for baselineBefore
+            if (roundNumber == 1) {
+                currentSession->baselineBefore = calculateOverallBaseline();
+            }
+
+            // Final analysis round: calculate and save overall baseline for baselineAfter during
+            if(roundNumber == 5) {
+                currentSession->baselineAfter = calculateOverallBaseline();
+            }
+        }
         sessionDuration += 1;
-        numberOfRound = static_cast<int>(sessionDuration / ROUND_LEN);
+        roundTimer += 1;
         mainWindow->update_session_timer(sessionDuration);
+
+        // After 5 sec analysis, do 1 sec treatment to all sites for the 4 rounds
+        if(roundTimer == 5 && roundNumber < 5) {
+            applyTreatment();
+        }
+
         if(sessionDuration >= MAX_DUR) {
             endSesh();
             return;
         }
+
+
     }
 }
 
@@ -129,6 +173,9 @@ void Device::endSesh() {
     currentSession->endSession();
     savedSessions.append(currentSession);
     saveSession(currTime, currentSession->baselineBefore, currentSession->baselineAfter);
+    qDebug() << currentSession->baselineBefore;
+    qDebug() << currentSession->baselineAfter;
+
     currentSession = nullptr;
     isSeshPaused = true;
     mainWindow->session_ended();
@@ -175,7 +222,27 @@ void Device::saveSession(QDateTime date, float baselineBefore, float baselineAft
             qDebug() << "Data saved to file:" << filename;
         } else {
             qDebug() << "Error: Unable to open file" << filename << "for writing.";
-        }
+    }
+}
+
+double Device::calculateOverallBaseline()
+{
+    double baseline = 0.0;
+
+    for(int i = 0; i < EEG_SITES; ++i)
+    {
+        baseline += sites[i]->getDominantFrequency();
+    }
+
+    return baseline / EEG_SITES;
+}
+
+void Device::applyTreatment()
+{
+    for(int i = 0; i < EEG_SITES; ++i)
+    {
+        sites[i]->startApplyingOffset(treatmentOffset);
+    }
 }
 
 QVector<QString> Device::readSessionHistory(){
