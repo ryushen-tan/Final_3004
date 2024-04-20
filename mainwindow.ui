@@ -163,7 +163,7 @@ with PC</string>
     <property name="title">
      <string>Device View</string>
     </property>
-    <widget class="QPlainTextEdit" name="redButton">
+    <widget class="QPlainTextEdit" name="blueButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -172,11 +172,8 @@ with PC</string>
        <height>31</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(237, 51, 59);</string>
-     </property>
     </widget>
-    <widget class="QPlainTextEdit" name="blueButton">
+    <widget class="QPlainTextEdit" name="redButton">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -184,9 +181,6 @@ with PC</string>
        <width>21</width>
        <height>31</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(98, 160, 234);</string>
      </property>
     </widget>
     <widget class="QPushButton" name="menu">
@@ -338,9 +332,6 @@ with PC</string>
        <width>21</width>
        <height>31</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(87, 227, 137);</string>
      </property>
     </widget>
     <widget class="QPushButton" name="power">

@@ -32,6 +32,7 @@ public:
     void update_session_timer(int time);
     void power_off();
     void session_ended();
+    void updateBattery(int);
 
 public slots:
 
@@ -69,6 +70,7 @@ public slots:
 
 private slots:
     void on_logList_currentIndexChanged(int);
+
 
 private:
     Ui::MainWindow *ui;
