@@ -264,12 +264,11 @@ void MainWindow::on_noBattery_clicked()
 void MainWindow::on_contact_clicked()
 {
     if (checked_headsetContact) {
-        if (ui->newSessionView->isEnabled()) {
-            //TODO: pause session, wait 5 seconds
-
-        }
         // Stop signal generation and is no longer in contact
         device->stopContact();
+
+        //set red and blue indicators
+        //background-color: rgb(x, y, z);
 
         checked_headsetContact = false;  // set button ready to connect when next clicked
         std::cout << "checked headset contact is now false\n ready to disconnect" << std::endl;
@@ -277,6 +276,9 @@ void MainWindow::on_contact_clicked()
     else {
         // clear the signal plot first
         clearGraph();
+
+        //set red and blue indicators
+        //background-color: rgb(x, y, z);
 
         // Calling generate signal function in EEGHeadset to test
         device->initiateContact();
