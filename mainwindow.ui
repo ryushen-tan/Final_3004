@@ -254,13 +254,13 @@ with PC</string>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>100</y>
+        <y>110</y>
         <width>261</width>
         <height>23</height>
        </rect>
       </property>
       <property name="value">
-       <number>100</number>
+       <number>0</number>
       </property>
      </widget>
      <widget class="QLabel" name="sessionTimer">
@@ -272,11 +272,58 @@ with PC</string>
         <height>17</height>
        </rect>
       </property>
+      <property name="text">
+       <string>29</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="sessionTimeRemaining">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>50</y>
+        <width>181</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>DejaVu Sans</family>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
+       <string notr="true">color: grey;</string>
       </property>
       <property name="text">
-       <string>0</string>
+       <string>SESSION TIME REMAINING (SECONDS)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="sessionProgressRemaining">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>90</y>
+        <width>181</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>DejaVu Sans</family>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: grey;</string>
+      </property>
+      <property name="text">
+       <string>SESSION PROGRESS REMAINING (%)</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -461,9 +508,6 @@ with PC</string>
        <width>62</width>
        <height>17</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(153, 193, 241);</string>
      </property>
      <property name="text">
       <string>Battery</string>
