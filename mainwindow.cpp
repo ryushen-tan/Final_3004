@@ -206,22 +206,25 @@ void MainWindow::on_submitTime_clicked()
 
 void MainWindow::on_connectPc_clicked()
 {
-    QVector<QString> logList = device->readSessionHistory();
-    QStringList dateList;
-    for (const QString& element : logList) {
-        QStringList parts = element.split(';');
-        if (parts.size() > 0) {
-            QString date = parts.at(0).trimmed();
-            dateList.append(date);
-        }
-    }
+
     //default state: false (not connected to PC)
     if (checked_connectPC) {
         //disconnect from PC
+        ui->ComputerView->setDisabled(true);
+        ui->logList->clear();
         checked_connectPC = false;  // set button ready to disconnect when next clicked
         std::cout << "checked connect pc is now false\n ready to disconnect" << std::endl;
     }
     else {
+        QVector<QString> logList = device->readSessionHistory();
+        QStringList dateList;
+        for (const QString& element : logList) {
+            QStringList parts = element.split(';');
+            if (parts.size() > 0) {
+                QString date = parts.at(0).trimmed();
+                dateList.append(date);
+            }
+        }
         //connect to PC
         ui->ComputerView->setEnabled(true);
 
