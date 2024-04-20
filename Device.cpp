@@ -208,17 +208,63 @@ void Device::stopSesh() {
 
 bool Device::getIsSeshPaused() { return isSeshPaused; }
 
-void Device::saveSession(QDateTime date, float baselineBefore, float baselineAfter){
-    QString filename = "sessionRecords.txt";
+void Device::saveSession(QDateTime date, float baselineBefore, float baselineAfter) {
+    QString recordsDirectory = QDir::homePath() + "/Medical_Records/";
+    QString filename = recordsDirectory + "sessionRecords.txt";
+    QDir recordsDir(recordsDirectory);
+    if (!recordsDir.exists()) {
+        if (!recordsDir.mkpath(recordsDirectory)) {
+            qDebug() << "Error: Unable to create directory" << recordsDirectory;
+            return;
+        }
+    }
+
     QFile file(filename);
     if (file.open(QIODevice::Append | QIODevice::Text)) {
-            QTextStream out(&file);
-            out << (date.toString()) << ";" << baselineBefore << ";" << baselineAfter << Qt::endl;
-            file.close();
-            qDebug() << "Data saved to file:" << filename;
-        } else {
-            qDebug() << "Error: Unable to open file" << filename << "for writing.";
+        QTextStream out(&file);
+        out << date.toString() << ";" << baselineBefore << ";" << baselineAfter << Qt::endl;
+        file.close();
+        qDebug() << "Data saved to file:" << filename;
+    } else {
+        qDebug() << "Error: Unable to open file" << filename << "for writing.";
     }
+}
+
+QVector<QString> Device::readSessionHistory() {
+    QVector<QString> ret;
+    QString recordsDirectory = QDir::homePath() + "/Medical_Records/";
+    QString filename = recordsDirectory + "sessionRecords.txt";
+
+    QDir recordsDir(recordsDirectory);
+    if (!recordsDir.exists()) {
+        if (!recordsDir.mkpath(recordsDirectory)) {
+            qDebug() << "Error: Unable to create directory" << recordsDirectory;
+            return ret;
+        }
+    }
+
+    QFile file(filename);
+    if (!file.exists()) {
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            qDebug() << "Error: Unable to create file" << filename << "for writing.";
+            return ret;
+        }
+        qDebug() << "File created:" << filename;
+        file.close();
+    }
+
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            ret.append(line);
+        }
+        file.close();
+        qDebug() << "Data read from file:" << filename;
+    } else {
+        qDebug() << "Error: Unable to open file" << filename << "for reading.";
+    }
+    return ret;
 }
 
 double Device::calculateOverallBaseline()
@@ -239,23 +285,4 @@ void Device::applyTreatment()
     {
         sites[i]->startApplyingOffset(treatmentOffset);
     }
-}
-
-QVector<QString> Device::readSessionHistory(){
-    QVector<QString> ret;
-    QString filename = "sessionRecords.txt";
-
-    QFile file(filename);
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-            QString line = in.readLine();
-            ret.append(line);
-        }
-        file.close();
-        qDebug() << "Data read from file:" << filename;
-    } else {
-        qDebug() << "Error: Unable to open file" << filename << "for reading.";
-    }
-    return ret;
 }
