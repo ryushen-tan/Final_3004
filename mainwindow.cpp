@@ -260,6 +260,11 @@ void MainWindow::on_noBattery_clicked()
     device->setBattery(0);  //set battery value
 }
 
+void MainWindow::updateBattery(int batteryLevel)    //would be called from Device class to update battery value
+{
+    ui->battery->setValue(batteryLevel);   //set UI battery level
+}
+
 
 void MainWindow::on_contact_clicked()
 {
