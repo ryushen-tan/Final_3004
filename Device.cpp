@@ -42,6 +42,7 @@ void Device::powerButton()
 {
     if (powerStatus) {
         turnOffDevice();    // turning off function
+        stopSesh();
         powerStatus = false;
     }
     else {
@@ -94,6 +95,17 @@ void Device::stopContact()
     {
         sites[i]->stopSignalGeneration();
     }
+
+    if (currentSession) {
+        pauseSesh();
+        // Start 5 second timer and if there is still no contact, stop the session
+        QTimer::singleShot(5000, this, [this]() {
+            if(!hasContact) {
+                mainWindow->on_stop_clicked();
+                mainWindow->on_power_clicked();
+            }
+        });
+    }
 }
 
 void Device::generateSignals()
@@ -117,18 +129,6 @@ void Device::beginSesh() {
 
 void Device::updateRound() {
     if(currentSession) {
-        // When no contact is detected, pause session
-        if (!hasContact) {
-            pauseSesh();
-
-            // Start 5 second timer and if there is still no contact, stop the session
-            QTimer::singleShot(5000, this, [this]() {
-                if(!hasContact) {
-                    mainWindow->on_stop_clicked();
-                }
-            });
-        }
-
         if(sessionDuration % ROUND_LEN == 0) {
             roundTimer = 0;
             roundNumber += 1; // Increment round first
