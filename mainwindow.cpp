@@ -72,14 +72,7 @@ void MainWindow::on_power_clicked()
 
     //checked default state: false
     if (checked_power) {
-        //disable menu and buttons that should be off when turning device off
-        ui->menuView->setDisabled(true);
-        ui->timeAndDateView->setDisabled(true);
-        ui->sessionLogsView->setDisabled(true);
-        ui->newSessionView->setDisabled(true);
-        ui->menu->setDisabled(true);
-        checked_power = false;
-        std::cout << "checked power is now false" << std::endl;
+        power_off();
     }
     else {
         if (ui->battery->value() > 0)
@@ -96,7 +89,7 @@ void MainWindow::on_power_clicked()
     }
 }
 
-void MainWindow::power_off()    //duplicate of on_power_clicked() but ONLY turns everything off
+void MainWindow::power_off()    //ONLY turns everything off
 {
         //disable menu and buttons that should be off when turning device off
         ui->menuView->setDisabled(true);
@@ -104,6 +97,9 @@ void MainWindow::power_off()    //duplicate of on_power_clicked() but ONLY turns
         ui->sessionLogsView->setDisabled(true);
         ui->newSessionView->setDisabled(true);
         ui->menu->setDisabled(true);
+        ui->sessionBar->setValue(0);
+        ui->sessionTimer->setNum(29);
+        device->stopSesh();
         checked_power = false;
         std::cout << "checked power is now false" << std::endl;
 }
