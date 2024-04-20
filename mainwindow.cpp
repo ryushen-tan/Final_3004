@@ -153,7 +153,9 @@ void MainWindow::on_sessionLogs_clicked()
     ui->newSessionView->setDisabled(true);
 
     //display logs, allow scrolling through the logs
+    ui->sessionsLogWidget->blockSignals(true);
     ui->sessionsLogWidget->clear();
+    ui->sessionsLogWidget->blockSignals(false);
     ui->sessionsLogWidget->addItems(dateList);
 }
 
@@ -211,14 +213,16 @@ void MainWindow::on_connectPc_clicked()
     if (checked_connectPC) {
         //disconnect from PC
         ui->ComputerView->setDisabled(true);
+        ui->logList->blockSignals(true);
         ui->logList->clear();
+        ui->logList->blockSignals(false);
         checked_connectPC = false;  // set button ready to disconnect when next clicked
         std::cout << "checked connect pc is now false\n ready to disconnect" << std::endl;
     }
     else {
-        QVector<QString> logList = device->readSessionHistory();
+        QVector<QString> logs = device->readSessionHistory();
         QStringList dateList;
-        for (const QString& element : logList) {
+        for (const QString& element : logs) {
             QStringList parts = element.split(';');
             if (parts.size() > 0) {
                 QString date = parts.at(0).trimmed();
@@ -229,7 +233,9 @@ void MainWindow::on_connectPc_clicked()
         ui->ComputerView->setEnabled(true);
 
         //dummy list of log dates and times
+        ui->logList->blockSignals(true);
         ui->logList->clear();
+        ui->logList->blockSignals(false);
         ui->logList->addItems(dateList);   //add list to dropdown
 
         checked_connectPC = true;   // set button ready to connect when next clicked
