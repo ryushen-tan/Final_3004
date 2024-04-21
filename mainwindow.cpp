@@ -260,6 +260,11 @@ void MainWindow::on_noBattery_clicked()
     device->setBattery(0);  //set battery value
 }
 
+void MainWindow::updateBattery(int batteryLevel)    //would be called from Device class to update battery value
+{
+    ui->battery->setValue(batteryLevel);   //set UI battery level
+}
+
 
 void MainWindow::on_contact_clicked()
 {
@@ -356,4 +361,30 @@ void MainWindow::on_logList_currentIndexChanged(int index)
 void MainWindow::session_ended() {
     ui->menu->setEnabled(true);
     on_menu_clicked();
+}
+
+void MainWindow::updateLight(Device::LightColor color, bool isOn) {
+    QPlainTextEdit* curColor;
+    QPlainTextEdit* allColors[] = {ui->redButton, ui->blueButton, ui->greenButton};
+
+    for(QPlainTextEdit* e : allColors) {
+        e->setStyleSheet("background-color: White;");
+    }
+
+    if(!isOn)
+        return;
+
+    switch(color) {
+    case Device::BLUE:
+        ui->blueButton->setStyleSheet("background-color: Blue");
+        break;
+    case Device::RED:
+        ui->redButton->setStyleSheet("background-color: Red");
+        break;
+    case Device::GREEN:
+        ui->greenButton->setStyleSheet("background-color: Green");
+        break;
+    default:
+        break;
+    }
 }

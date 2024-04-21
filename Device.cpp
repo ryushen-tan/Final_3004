@@ -23,14 +23,24 @@ Device::Device(MainWindow* mw, QObject* parent) :
         sites.append(new EEGSite());
     }
 
+    lightColor = NONE;
+    isOn = false;
+
     timer = new QTimer(this);
+    lightTimer = new QTimer(this);
     isSeshPaused = true;
     connect(timer, &QTimer::timeout, this, &Device::updateRound);
+    connect(lightTimer, &QTimer::timeout, this, &Device::flashLight);
 
+    lightTimer->start(LIGHT_FLASH_FRQ);
 }
 
 Device::~Device() {
     // Cleanup might be needed
+    delete timer;
+    for(SessionInfo* e : savedSessions) {
+        delete e;
+    }
 }
 
 void Device::setTime(const QDateTime &dt) {
@@ -60,7 +70,7 @@ void Device::setBattery(int charge)
 {
     if (charge < 0) // if charge value is negative, this is a battery drain of (int) charge %
     {
-        batteryLevel -= charge;
+        batteryLevel += charge;
     }
     else // if charge value is not battery drain, battery level is being set to certain %
     {
@@ -72,22 +82,25 @@ void Device::setBattery(int charge)
         std::cout << "ATTENTION: no power! Device powering off...\n" << std::endl;
         turnOffDevice();    //power off
     }
-    else if (batteryLevel < 40)
+    else if (batteryLevel < 30)
     {
-        //low power messfage... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
-        std::cout << "ATTENTION: low power! Please charge device. 40% minimum needed for a new session.\n" << std::endl;
+        //low power messfage... each session requires around 30% battery, so if there's less than 30% battery, the device will let the user know it needs to be charged
+        std::cout << "ATTENTION: low power! Please charge device. 30% minimum needed for a new session.\n" << std::endl;
     }
     std::cout << "battery is set to " << batteryLevel << "\n" << std::endl;
+    mainWindow->updateBattery(batteryLevel);
 }
 
 void Device::initiateContact()
 {
+    lightColor = BLUE;
     hasContact = true;
     generateSignals();
 }
 
 void Device::stopContact()
 {
+    lightColor = RED;
     hasContact = false;
 
     // Stop all sites from generating signals
@@ -125,6 +138,7 @@ void Device::beginSesh() {
     sessionDuration = 0;
     roundNumber = 0;
     isSeshPaused = true;
+    lightColor = NONE;
 }
 
 void Device::updateRound() {
@@ -153,11 +167,13 @@ void Device::updateRound() {
         sessionDuration += 1;
         roundTimer += 1;
         mainWindow->update_session_timer(sessionDuration);
+        setBattery(-1);
 
         // After 5 sec analysis, do 1 sec treatment to all sites for the 4 rounds
         if(roundTimer == 5 && roundNumber < 5) {
+            lightColor = GREEN;
             applyTreatment();
-        }
+        } else { lightColor = BLUE; }
 
         if(sessionDuration >= MAX_DUR) {
             endSesh();
@@ -178,6 +194,7 @@ void Device::endSesh() {
 
     currentSession = nullptr;
     isSeshPaused = true;
+    lightColor = NONE;
     mainWindow->session_ended();
 }
 
@@ -202,6 +219,7 @@ void Device::pauseSesh() {
 
 void Device::stopSesh() {
         timer->stop();
+        delete currentSession;
         currentSession = nullptr;
         isSeshPaused = true;
 }
@@ -285,4 +303,15 @@ void Device::applyTreatment()
     {
         sites[i]->startApplyingOffset(treatmentOffset);
     }
+}
+
+void Device::flashLight() {
+    if(currentSession && (!isSeshPaused || !hasContact)) {
+        mainWindow->updateLight(lightColor, isOn);
+        isOn = !isOn;
+    }
+    else {
+        mainWindow->updateLight(NONE, false);
+    }
+
 }

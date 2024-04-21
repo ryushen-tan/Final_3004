@@ -21,6 +21,7 @@ using namespace std;
 #define MAX_DUR 29
 #define SESH_UPDATE_FRQ 1000
 #define MAX_ROUNDS 4;
+#define LIGHT_FLASH_FRQ 500
 
 class MainWindow; // Forward declaration
 class SessionInfo;
@@ -32,11 +33,17 @@ public:
     ~Device();
 
     QTimer* timer;
+    QTimer* lightTimer;
     QDateTime currTime;
   
     QVector<SessionInfo*> savedSessions;
     SessionInfo* currentSession;
     QVector<EEGSite*> sites;
+
+    enum LightColor {RED, GREEN, BLUE, NONE};
+    LightColor lightColor;
+    bool isOn;
+
 
     int batteryLevel;
     bool powerStatus;
@@ -69,6 +76,7 @@ public:
 
 private slots:
     void updateRound(); // Connected to QTimer
+    void flashLight(); // Connected to another QTimer
 
 private:
     QVector<QString> currSeshInfo;
