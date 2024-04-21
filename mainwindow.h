@@ -33,6 +33,7 @@ public:
     void power_off();
     void session_ended();
     void updateBattery(int);
+    void updateLight(Device::LightColor, bool isOn);
 
 public slots:
 

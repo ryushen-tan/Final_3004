@@ -362,3 +362,29 @@ void MainWindow::session_ended() {
     ui->menu->setEnabled(true);
     on_menu_clicked();
 }
+
+void MainWindow::updateLight(Device::LightColor color, bool isOn) {
+    QPlainTextEdit* curColor;
+    QPlainTextEdit* allColors[] = {ui->redButton, ui->blueButton, ui->greenButton};
+
+    for(QPlainTextEdit* e : allColors) {
+        e->setStyleSheet("background-color: White;");
+    }
+
+    if(!isOn)
+        return;
+
+    switch(color) {
+    case Device::BLUE:
+        ui->blueButton->setStyleSheet("background-color: Blue");
+        break;
+    case Device::RED:
+        ui->redButton->setStyleSheet("background-color: Red");
+        break;
+    case Device::GREEN:
+        ui->greenButton->setStyleSheet("background-color: Green");
+        break;
+    default:
+        break;
+    }
+}
