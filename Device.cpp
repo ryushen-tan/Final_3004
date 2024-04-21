@@ -23,10 +23,16 @@ Device::Device(MainWindow* mw, QObject* parent) :
         sites.append(new EEGSite());
     }
 
+    lightColor = NONE;
+    isOn = false;
+
     timer = new QTimer(this);
+    lightTimer = new QTimer(this);
     isSeshPaused = true;
     connect(timer, &QTimer::timeout, this, &Device::updateRound);
+    connect(lightTimer, &QTimer::timeout, this, &Device::flashLight);
 
+    lightTimer->start(LIGHT_FLASH_FRQ);
 }
 
 Device::~Device() {
@@ -83,12 +89,14 @@ void Device::setBattery(int charge)
 
 void Device::initiateContact()
 {
+    lightColor = BLUE;
     hasContact = true;
     generateSignals();
 }
 
 void Device::stopContact()
 {
+    lightColor = RED;
     hasContact = false;
 
     // Stop all sites from generating signals
@@ -126,6 +134,7 @@ void Device::beginSesh() {
     sessionDuration = 0;
     roundNumber = 0;
     isSeshPaused = true;
+    lightColor = NONE;
 }
 
 void Device::updateRound() {
@@ -158,8 +167,9 @@ void Device::updateRound() {
 
         // After 5 sec analysis, do 1 sec treatment to all sites for the 4 rounds
         if(roundTimer == 5 && roundNumber < 5) {
+            lightColor = GREEN;
             applyTreatment();
-        }
+        } else { lightColor = BLUE; }
 
         if(sessionDuration >= MAX_DUR) {
             endSesh();
@@ -180,6 +190,7 @@ void Device::endSesh() {
 
     currentSession = nullptr;
     isSeshPaused = true;
+    lightColor = NONE;
     mainWindow->session_ended();
 }
 
@@ -287,4 +298,15 @@ void Device::applyTreatment()
     {
         sites[i]->startApplyingOffset(treatmentOffset);
     }
+}
+
+void Device::flashLight() {
+    if(currentSession && (!isSeshPaused || !hasContact)) {
+        mainWindow->updateLight(lightColor, isOn);
+        isOn = !isOn;
+    }
+    else {
+        mainWindow->updateLight(NONE, false);
+    }
+
 }

@@ -172,6 +172,9 @@ with PC</string>
        <height>31</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
     </widget>
     <widget class="QPlainTextEdit" name="redButton">
      <property name="geometry">
