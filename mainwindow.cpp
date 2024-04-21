@@ -388,3 +388,7 @@ void MainWindow::updateLight(Device::LightColor color, bool isOn) {
         break;
     }
 }
+
+void MainWindow::setDisabledPlayButton(bool value) {
+    ui->play->setDisabled(value);
+}
