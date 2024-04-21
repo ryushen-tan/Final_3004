@@ -37,6 +37,10 @@ Device::Device(MainWindow* mw, QObject* parent) :
 
 Device::~Device() {
     // Cleanup might be needed
+    delete timer;
+    for(SessionInfo* e : savedSessions) {
+        delete e;
+    }
 }
 
 void Device::setTime(const QDateTime &dt) {
@@ -215,6 +219,7 @@ void Device::pauseSesh() {
 
 void Device::stopSesh() {
         timer->stop();
+        delete currentSession;
         currentSession = nullptr;
         isSeshPaused = true;
 }
