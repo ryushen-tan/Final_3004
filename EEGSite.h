@@ -22,8 +22,11 @@
  * - signalGenerated(double): Slot to handle the signal generated
  * - calculateDominantFrequency(): To calculate the dominant frequency
  * - getDominantFrequency(): To get the dominant frequency
- * - applyOffset(double, double): To apply an offset to the signal for treatment
  * - getRandomInRange(double, double): Helper function to get a random number in a range
+ * - handleSignal(double): Slot to handle the signal generated
+ * - applyOffset(): Slot to apply the offset
+ * - stopApplyingOffset(): Slot to stop applying the offset
+ * - startApplyingOffset(double): To start applying the offset
  */
 
 class EEGSite : public QObject
@@ -31,11 +34,11 @@ class EEGSite : public QObject
     Q_OBJECT
 public:
     EEGSite(QObject* parent = nullptr);
+    double getDominantFrequency();
+    
     void generateSignal();
     void stopSignalGeneration();
-
-    double getDominantFrequency();
-
+    
     void startApplyingOffset(double);
 
 signals:

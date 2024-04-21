@@ -26,7 +26,7 @@ class SignalGenerator : public QObject
 public:
     SignalGenerator(QObject *parent = nullptr);
 
-    // Will probably need this to get frequency for analysis
+    // Getters for amplitudes
     double getDeltaAmplitude();
     double getThetaAmplitude();
     double getAlphaAmplitude();
