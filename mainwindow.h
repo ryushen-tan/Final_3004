@@ -34,6 +34,7 @@ public:
     void session_ended();
     void updateBattery(int);
     void updateLight(Device::LightColor, bool isOn);
+    void setDisabledPlayButton(bool);
 
 public slots:
 

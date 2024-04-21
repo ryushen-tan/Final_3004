@@ -95,6 +95,7 @@ void Device::initiateContact()
 {
     lightColor = BLUE;
     hasContact = true;
+    mainWindow->setDisabledPlayButton(false);
     generateSignals();
 }
 
@@ -111,6 +112,7 @@ void Device::stopContact()
 
     if (currentSession) {
         pauseSesh();
+        mainWindow->setDisabledPlayButton(true);
         // Start 5 second timer and if there is still no contact, stop the session
         QTimer::singleShot(5000, this, [this]() {
             if(!hasContact) {
@@ -306,12 +308,18 @@ void Device::applyTreatment()
 }
 
 void Device::flashLight() {
-    if(currentSession && (!isSeshPaused || !hasContact)) {
-        mainWindow->updateLight(lightColor, isOn);
+    if(hasContact) {
+        mainWindow->updateLight(BLUE, true);
+    } else {
+        mainWindow->updateLight(BLUE, false);
+        mainWindow->updateLight(RED, isOn);
         isOn = !isOn;
+        cout << "Beep!" << endl;
     }
-    else {
-        mainWindow->updateLight(NONE, false);
+
+    if(lightColor == GREEN && currentSession && hasContact) {
+        mainWindow->updateLight(GREEN, isOn);
+        isOn = !isOn;
     }
 
 }
