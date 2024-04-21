@@ -303,12 +303,18 @@ void Device::applyTreatment()
 }
 
 void Device::flashLight() {
-    if(currentSession && (!isSeshPaused || !hasContact)) {
-        mainWindow->updateLight(lightColor, isOn);
+    if(hasContact) {
+        mainWindow->updateLight(BLUE, true);
+    } else {
+        mainWindow->updateLight(BLUE, false);
+        mainWindow->updateLight(RED, isOn);
         isOn = !isOn;
+        cout << "Beep!" << endl;
     }
-    else {
-        mainWindow->updateLight(NONE, false);
+
+    if(lightColor == GREEN && currentSession && hasContact) {
+        mainWindow->updateLight(GREEN, isOn);
+        isOn = !isOn;
     }
 
 }

@@ -249,8 +249,8 @@ void MainWindow::on_maxBattery_clicked()
 
 void MainWindow::on_lowBattery_clicked()
 {
-    ui->battery->setValue(39);  //set UI battery level
-    device->setBattery(39); //set battery value
+    ui->battery->setValue(30);  //set UI battery level
+    device->setBattery(30); //set battery value
 }
 
 
@@ -365,24 +365,27 @@ void MainWindow::session_ended() {
 
 void MainWindow::updateLight(Device::LightColor color, bool isOn) {
     QPlainTextEdit* curColor;
-    QPlainTextEdit* allColors[] = {ui->redButton, ui->blueButton, ui->greenButton};
+    QPlainTextEdit* allColors[] = {ui->redButton, ui->greenButton};
 
     for(QPlainTextEdit* e : allColors) {
         e->setStyleSheet("background-color: White;");
     }
 
-    if(!isOn)
+    if(!isOn && color != Device::BLUE)
         return;
 
     switch(color) {
     case Device::BLUE:
-        ui->blueButton->setStyleSheet("background-color: Blue");
+        if(isOn)
+            ui->blueButton->setStyleSheet("background-color: Blue;");
+        else
+            ui->blueButton->setStyleSheet("background-color: White;");
         break;
     case Device::RED:
-        ui->redButton->setStyleSheet("background-color: Red");
+        ui->redButton->setStyleSheet("background-color: Red;");
         break;
     case Device::GREEN:
-        ui->greenButton->setStyleSheet("background-color: Green");
+        ui->greenButton->setStyleSheet("background-color: Green;");
         break;
     default:
         break;
