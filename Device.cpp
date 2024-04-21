@@ -38,6 +38,10 @@ Device::Device(MainWindow* mw, QObject* parent) :
 Device::~Device() {
     // Cleanup might be needed
     delete timer;
+    delete lightTimer;
+    for (EEGSite* e : sites) {
+        delete e;
+    }
     for(SessionInfo* e : savedSessions) {
         delete e;
     }
@@ -188,7 +192,6 @@ void Device::updateRound() {
 
 void Device::endSesh() {
     timer->stop();
-    currentSession->endSession();
     savedSessions.append(currentSession);
     saveSession(currTime, currentSession->baselineBefore, currentSession->baselineAfter);
     qDebug() << currentSession->baselineBefore;

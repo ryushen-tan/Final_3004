@@ -364,7 +364,6 @@ void MainWindow::session_ended() {
 }
 
 void MainWindow::updateLight(Device::LightColor color, bool isOn) {
-    QPlainTextEdit* curColor;
     QPlainTextEdit* allColors[] = {ui->redButton, ui->greenButton};
 
     for(QPlainTextEdit* e : allColors) {

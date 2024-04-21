@@ -5,10 +5,9 @@
 class SessionInfo
 {
 public:
-    SessionInfo();
+    SessionInfo() {};
     double baselineBefore;
     double baselineAfter;
-    void endSession();
 };
 
 #endif // SESSIONINFO_H
