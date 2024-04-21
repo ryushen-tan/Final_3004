@@ -11,11 +11,10 @@
 #include <QLineSeries>
 #include <QString>
 #include <QStringList>
-
+#include <iostream>
 
 #include "Device.h"
 
-#include <iostream>
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -33,6 +32,8 @@ public:
     void update_session_timer(int time);
     void power_off();
     void session_ended();
+    void updateBattery(int);
+    void updateLight(Device::LightColor, bool isOn);
 
 public slots:
 
@@ -69,7 +70,8 @@ public slots:
     void clearGraph();
 
 private slots:
-    void on_logList_currentIndexChanged(const QString &arg1);
+    void on_logList_currentIndexChanged(int);
+
 
 private:
     Ui::MainWindow *ui;
@@ -78,9 +80,6 @@ private:
     bool checked_connectPC;
     bool checked_headsetContact;
 
-
-//    QVector<QString> datesAndTimes;  //dummy log list
-    QStringList datesAndTimes;  //dummy log list
     QLineSeries* series;
     QChart* chart;
     QChartView* chartView;
@@ -88,6 +87,6 @@ private:
     QValueAxis* axisY;
 
     EEGSite* currSite;
-    static qreal plotTime;
+    qreal plotTime;
 };
 #endif // MAINWINDOW_H

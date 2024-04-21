@@ -4,13 +4,14 @@
 #include <QObject>
 #include <QVector>
 #include <QRandomGenerator>
+#include <QTimer>
 #include <QDebug>
 #include "SignalGenerator.h"
 
 /* Purpose of class: EEGSite to generate an EEG signal for a specific site
  *
  * Data Members:
- * - QVector<double>* EEGSignalBuffer: A buffer to store the EEG signal
+ * - QTimer* timer: A timer to apply an offset to the signal at 1/16th of a second
  * - SignalGenerator* signalGenerator: A SignalGenerator object to generate the EEG signal
  * - double dominantFreq: To store the dominant frequency
  *
@@ -19,7 +20,7 @@
  * - generateSignal(): To generate the EEG signal
  * - stopSignalGeneration(): To stop the signal generation
  * - signalGenerated(double): Slot to handle the signal generated
- * - calculateDominantFrequency(double, double, double, double, double, double, double, double): To calculate the dominant frequency
+ * - calculateDominantFrequency(): To calculate the dominant frequency
  * - getDominantFrequency(): To get the dominant frequency
  * - applyOffset(double, double): To apply an offset to the signal for treatment
  * - getRandomInRange(double, double): Helper function to get a random number in a range
@@ -29,24 +30,29 @@ class EEGSite : public QObject
 {
     Q_OBJECT
 public:
-    EEGSite();
+    EEGSite(QObject* parent = nullptr);
     void generateSignal();
     void stopSignalGeneration();
+
+    double getDominantFrequency();
+
+    void startApplyingOffset(double);
 
 signals:
     void signalGenerated(double value);
 
 private slots:
     void handleSignal(double);
+    void applyOffset();
+    void stopApplyingOffset();
 
 private:
-    QVector<double> *EEGSignalBuffer;
+    QTimer* timer;
     SignalGenerator* signalGenerator;
-    double dominantFreq;  // To store the dominant frequency
+    double dominantFrequency;  // To store the dominant frequency
+    double offset; // To store the offset value
 
-    double calculateDominantFrequency(double, double, double, double, double, double, double, double);
-    double getDominantFrequency();
-    void applyOffset(double, double);
+    double calculateDominantFrequency();
 
     double getRandomInRange(double, double);
 };

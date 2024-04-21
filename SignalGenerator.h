@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
-#include <cmath>
+#include <QtMath>
 #include <QDebug>
 
 /* Purpose of class: Signal Generator QObject to generate and emit the signal of a sine wave at a certain frequency
@@ -14,7 +14,10 @@
  * - double angle:
  *
  * Class functions:
- *
+ * - SignalGenerator(QObject* parent = nullptr): Constructor for the SignalGenerator class
+ * - void start(): Starts the timer to generate the signal
+ * - void stop(): Stops the timer from generating the signal
+ * - void generateEEGSignal(): Generates the EEG signal
  */
 
 class SignalGenerator : public QObject
@@ -46,6 +49,7 @@ public:
     void setAlphaFrequency(double);
     void setBetaFrequency(double);
 
+    void setSampleRate(double);
 
     // Start and stop generating EEG signal
     void start();

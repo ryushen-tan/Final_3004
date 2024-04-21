@@ -8,6 +8,9 @@
 #include <QDateTime>
 #include <QVector>
 #include <iostream>
+#include <QVector>
+#include <QFile>
+#include <QDebug>
 
 using namespace std;
 
@@ -17,6 +20,8 @@ using namespace std;
 #define ROUND_LEN 6
 #define MAX_DUR 29
 #define SESH_UPDATE_FRQ 1000
+#define MAX_ROUNDS 4;
+#define LIGHT_FLASH_FRQ 500
 
 class MainWindow; // Forward declaration
 class SessionInfo;
@@ -28,14 +33,23 @@ public:
     ~Device();
 
     QTimer* timer;
+    QTimer* lightTimer;
     QDateTime currTime;
   
     QVector<SessionInfo*> savedSessions;
     SessionInfo* currentSession;
     QVector<EEGSite*> sites;
 
+    enum LightColor {RED, GREEN, BLUE, NONE};
+    LightColor lightColor;
+    bool isOn;
+
+
     int batteryLevel;
     bool powerStatus;
+    bool hasContact;
+    int remainingTime;
+    bool hasBeenPaused;
 
     bool isSeshPaused;
 
@@ -47,27 +61,34 @@ public:
     void playSesh();
     void stopSesh();
 
-    void calculateDominantFreq();
-    void applyTreatment();
-
     void setBattery(int);
 
     void initiateContact();
+    void stopContact();
     void generateSignals();
 
     void turnOffDevice();
 
     bool getIsSeshPaused();
 
+    QVector<QString> readSessionHistory();
+    void saveSession(QDateTime date, float baselineBefore, float baselineAfter);
+
+private slots:
+    void updateRound(); // Connected to QTimer
+    void flashLight(); // Connected to another QTimer
+
 private:
     QVector<QString> currSeshInfo;
-    bool hasContact;
 
     MainWindow* mainWindow;
     int sessionDuration;
-    int numberOfRound;
+    int roundTimer;
+    int roundNumber;
+    double treatmentOffset;
 
-private slots:
-    void updateRound();
+    // Therapy Process Functions
+    double calculateOverallBaseline();
+    void applyTreatment();
 };
 #endif // DEVICE_H

@@ -10,7 +10,11 @@ Device::Device(MainWindow* mw, QObject* parent) :
     currentSession(nullptr),
     batteryLevel(100), //TODO: get battery value from file & store in variable
     powerStatus(false),
-    hasContact(false)
+    hasContact(false),
+    sessionDuration(0),
+    roundTimer(0),
+    roundNumber(0),
+    treatmentOffset(0.0)
 {
     mainWindow = mw;
 
@@ -19,13 +23,16 @@ Device::Device(MainWindow* mw, QObject* parent) :
         sites.append(new EEGSite());
     }
 
+    lightColor = NONE;
+    isOn = false;
+
     timer = new QTimer(this);
+    lightTimer = new QTimer(this);
     isSeshPaused = true;
     connect(timer, &QTimer::timeout, this, &Device::updateRound);
+    connect(lightTimer, &QTimer::timeout, this, &Device::flashLight);
 
-    sessionDuration = 0;
-    numberOfRound = 1;
-
+    lightTimer->start(LIGHT_FLASH_FRQ);
 }
 
 Device::~Device() {
@@ -45,6 +52,7 @@ void Device::powerButton()
 {
     if (powerStatus) {
         turnOffDevice();    // turning off function
+        stopSesh();
         powerStatus = false;
     }
     else {
@@ -62,7 +70,7 @@ void Device::setBattery(int charge)
 {
     if (charge < 0) // if charge value is negative, this is a battery drain of (int) charge %
     {
-        batteryLevel -= charge;
+        batteryLevel += charge;
     }
     else // if charge value is not battery drain, battery level is being set to certain %
     {
@@ -74,23 +82,48 @@ void Device::setBattery(int charge)
         std::cout << "ATTENTION: no power! Device powering off...\n" << std::endl;
         turnOffDevice();    //power off
     }
-    else if (batteryLevel < 40)
+    else if (batteryLevel < 30)
     {
-        //low power messfage... each session requires around 40% battery, so if there's less than 40% battery, the device will let the user know it needs to be charged
-        std::cout << "ATTENTION: low power! Please charge device. 40% minimum needed for a new session.\n" << std::endl;
+        //low power messfage... each session requires around 30% battery, so if there's less than 30% battery, the device will let the user know it needs to be charged
+        std::cout << "ATTENTION: low power! Please charge device. 30% minimum needed for a new session.\n" << std::endl;
     }
     std::cout << "battery is set to " << batteryLevel << "\n" << std::endl;
+    mainWindow->updateBattery(batteryLevel);
 }
 
 void Device::initiateContact()
 {
+    lightColor = BLUE;
     hasContact = true;
     generateSignals();
 }
 
+void Device::stopContact()
+{
+    lightColor = RED;
+    hasContact = false;
+
+    // Stop all sites from generating signals
+    for (int i = 0; i < EEG_SITES; ++i)
+    {
+        sites[i]->stopSignalGeneration();
+    }
+
+    if (currentSession) {
+        pauseSesh();
+        // Start 5 second timer and if there is still no contact, stop the session
+        QTimer::singleShot(5000, this, [this]() {
+            if(!hasContact) {
+                mainWindow->on_stop_clicked();
+                mainWindow->on_power_clicked();
+            }
+        });
+    }
+}
+
 void Device::generateSignals()
 {
-    for (int i = 0; i < EEG_SITES; i++)
+    for (int i = 0; i < EEG_SITES; ++i)
     {
         sites[i]->generateSignal();
     }
@@ -100,20 +133,54 @@ void Device::beginSesh() {
     //create a new session
     SessionInfo* newSession = new SessionInfo();
     currentSession = newSession;
+
+    // Reset for new session
     sessionDuration = 0;
-    numberOfRound = 1;
+    roundNumber = 0;
     isSeshPaused = true;
+    lightColor = NONE;
 }
 
 void Device::updateRound() {
     if(currentSession) {
+        if(sessionDuration % ROUND_LEN == 0) {
+            roundTimer = 0;
+            roundNumber += 1; // Increment round first
+
+            // clear graph so we can see the signal during analysis and treatment
+            mainWindow->clearGraph();
+
+            if (roundNumber < 5) {
+                treatmentOffset += 5.0; // Increment Offet for 5hz,10hz,15hz,20hz treatments
+            }
+
+            // Round 1: calculate and save overall baseline for baselineBefore
+            if (roundNumber == 1) {
+                currentSession->baselineBefore = calculateOverallBaseline();
+            }
+
+            // Final analysis round: calculate and save overall baseline for baselineAfter during
+            if(roundNumber == 5) {
+                currentSession->baselineAfter = calculateOverallBaseline();
+            }
+        }
         sessionDuration += 1;
-        numberOfRound = static_cast<int>(sessionDuration / ROUND_LEN);
+        roundTimer += 1;
         mainWindow->update_session_timer(sessionDuration);
+        setBattery(-1);
+
+        // After 5 sec analysis, do 1 sec treatment to all sites for the 4 rounds
+        if(roundTimer == 5 && roundNumber < 5) {
+            lightColor = GREEN;
+            applyTreatment();
+        } else { lightColor = BLUE; }
+
         if(sessionDuration >= MAX_DUR) {
             endSesh();
             return;
         }
+
+
     }
 }
 
@@ -121,8 +188,13 @@ void Device::endSesh() {
     timer->stop();
     currentSession->endSession();
     savedSessions.append(currentSession);
+    saveSession(currTime, currentSession->baselineBefore, currentSession->baselineAfter);
+    qDebug() << currentSession->baselineBefore;
+    qDebug() << currentSession->baselineAfter;
+
     currentSession = nullptr;
     isSeshPaused = true;
+    lightColor = NONE;
     mainWindow->session_ended();
 }
 
@@ -133,29 +205,113 @@ void Device::turnOffDevice()    // turning off device function: update battery v
 }
 
 void Device::playSesh() {
-    if(currentSession) {
-        isSeshPaused = false;
-        timer->start(SESH_UPDATE_FRQ);
+    if(!currentSession) {
+        beginSesh();
     }
+    isSeshPaused = false;
+    timer->start(SESH_UPDATE_FRQ);
 }
 
 void Device::pauseSesh() {
-    if(currentSession) {
         isSeshPaused = true;
         timer->stop();
-    }
 }
 
 void Device::stopSesh() {
-    if(currentSession) {
         timer->stop();
-        /// Do we do this here?
-        // currentSession->endSession();
         delete currentSession;
         currentSession = nullptr;
         isSeshPaused = true;
-    }
 }
 
 bool Device::getIsSeshPaused() { return isSeshPaused; }
 
+void Device::saveSession(QDateTime date, float baselineBefore, float baselineAfter) {
+    QString recordsDirectory = QDir::homePath() + "/Medical_Records/";
+    QString filename = recordsDirectory + "sessionRecords.txt";
+    QDir recordsDir(recordsDirectory);
+    if (!recordsDir.exists()) {
+        if (!recordsDir.mkpath(recordsDirectory)) {
+            qDebug() << "Error: Unable to create directory" << recordsDirectory;
+            return;
+        }
+    }
+
+    QFile file(filename);
+    if (file.open(QIODevice::Append | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << date.toString() << ";" << baselineBefore << ";" << baselineAfter << Qt::endl;
+        file.close();
+        qDebug() << "Data saved to file:" << filename;
+    } else {
+        qDebug() << "Error: Unable to open file" << filename << "for writing.";
+    }
+}
+
+QVector<QString> Device::readSessionHistory() {
+    QVector<QString> ret;
+    QString recordsDirectory = QDir::homePath() + "/Medical_Records/";
+    QString filename = recordsDirectory + "sessionRecords.txt";
+
+    QDir recordsDir(recordsDirectory);
+    if (!recordsDir.exists()) {
+        if (!recordsDir.mkpath(recordsDirectory)) {
+            qDebug() << "Error: Unable to create directory" << recordsDirectory;
+            return ret;
+        }
+    }
+
+    QFile file(filename);
+    if (!file.exists()) {
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            qDebug() << "Error: Unable to create file" << filename << "for writing.";
+            return ret;
+        }
+        qDebug() << "File created:" << filename;
+        file.close();
+    }
+
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            ret.append(line);
+        }
+        file.close();
+        qDebug() << "Data read from file:" << filename;
+    } else {
+        qDebug() << "Error: Unable to open file" << filename << "for reading.";
+    }
+    return ret;
+}
+
+double Device::calculateOverallBaseline()
+{
+    double baseline = 0.0;
+
+    for(int i = 0; i < EEG_SITES; ++i)
+    {
+        baseline += sites[i]->getDominantFrequency();
+    }
+
+    return baseline / EEG_SITES;
+}
+
+void Device::applyTreatment()
+{
+    for(int i = 0; i < EEG_SITES; ++i)
+    {
+        sites[i]->startApplyingOffset(treatmentOffset);
+    }
+}
+
+void Device::flashLight() {
+    if(currentSession && (!isSeshPaused || !hasContact)) {
+        mainWindow->updateLight(lightColor, isOn);
+        isOn = !isOn;
+    }
+    else {
+        mainWindow->updateLight(NONE, false);
+    }
+
+}

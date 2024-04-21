@@ -97,8 +97,16 @@ void SignalGenerator::setBetaFrequency(double freq)
     betaFreq = freq;
 }
 
+void SignalGenerator::setSampleRate(double rate)
+{
+    sampleRateHz = rate;
+}
+
 void SignalGenerator::start()
 {
+    // reset time
+    currTime = 0.0;
+
     timer->start(1000 / sampleRateHz); // Updates based on sample rate
 }
 
@@ -109,19 +117,16 @@ void SignalGenerator::stop()
 
 void SignalGenerator::generateEEGSignal() {
     // Generate signal for each frequency band
-    double delta = deltaAmp * sin(2 * M_PI * deltaFreq * currTime);
-    double theta = thetaAmp * sin(2 * M_PI * thetaFreq * currTime);
-    double alpha = alphaAmp * sin(2 * M_PI * alphaFreq * currTime);
-    double beta = betaAmp * sin(2 * M_PI * betaFreq * currTime);
+    double delta = deltaAmp * qSin(2 * M_PI * deltaFreq * currTime);
+    double theta = thetaAmp * qSin(2 * M_PI * thetaFreq * currTime);
+    double alpha = alphaAmp * qSin(2 * M_PI * alphaFreq * currTime);
+    double beta = betaAmp * qSin(2 * M_PI * betaFreq * currTime);
 
     // Add the signals
     double EEGSignal = delta + theta + alpha + beta;
 
     // Increment current time based on Hz
     currTime += 1.0 / sampleRateHz;
-
-    // Testing
-    //qDebug() << EEGSignal;
 
     // Emit the generated sine wave value
     emit signalGenerated(EEGSignal);

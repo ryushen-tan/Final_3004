@@ -1,11 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-qreal MainWindow::plotTime = 0.0;
-
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow),
+      plotTime(0.0)
 {
     ui->setupUi(this);
 
@@ -26,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setParent(ui->signalPlotFrame);
-    chartView->setFixedSize(900, 350);
+    chartView->setFixedSize(910, 350);
 
     axisX = new QValueAxis();
     chart->addAxis(axisX, Qt::AlignBottom);
@@ -36,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     axisY = new QValueAxis();
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
-    axisY->setRange(-20,20);
+    axisY->setRange(-15,15);
 
     // site combo bbox
     for (int i = 1; i <= EEG_SITES; ++i) {
@@ -49,25 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     connect(ui->sitePlotComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::updateSiteToPlot);
-
-
-    //dummy log list, front end only *this should be populated from text file when we actually have one, using a for/while loop
-    datesAndTimes.append("jan 1, 2024 00:00:00");
-    datesAndTimes.append("jan 2, 2024 15:00:00");
-    datesAndTimes.append("apr 12, 2024 15:39:07");
-    datesAndTimes.append("up up down down left right left right a b");
-    datesAndTimes.append("5");
-    datesAndTimes.append("127fhjklselu");
-    datesAndTimes.append("however many it takes");
-    datesAndTimes.append("oct 22, 2024 17:14:35");
-    datesAndTimes.append("jan 1, 2024 00:00:00");
-    datesAndTimes.append("jan 2, 2024 15:00:00");
-    datesAndTimes.append("apr 12, 2024 15:39:07");
-    datesAndTimes.append("up up down down left right left right a b");
-    datesAndTimes.append("5");
-    datesAndTimes.append("127fhjklselu");
-    datesAndTimes.append("however many it takes");
-    datesAndTimes.append("oct 22, 2024 17:14:35");
 
     ui->menu->setDisabled(true);
     ui->menuView->setDisabled(true);
@@ -92,14 +72,7 @@ void MainWindow::on_power_clicked()
 
     //checked default state: false
     if (checked_power) {
-        //disable menu and buttons that should be off when turning device off
-        ui->menuView->setDisabled(true);
-        ui->timeAndDateView->setDisabled(true);
-        ui->sessionLogsView->setDisabled(true);
-        ui->newSessionView->setDisabled(true);
-        ui->menu->setDisabled(true);
-        checked_power = false;
-        std::cout << "checked power is now false" << std::endl;
+        power_off();
     }
     else {
         if (ui->battery->value() > 0)
@@ -116,7 +89,7 @@ void MainWindow::on_power_clicked()
     }
 }
 
-void MainWindow::power_off()    //duplicate of on_power_clicked() but ONLY turns everything off
+void MainWindow::power_off()    //ONLY turns everything off
 {
         //disable menu and buttons that should be off when turning device off
         ui->menuView->setDisabled(true);
@@ -124,6 +97,9 @@ void MainWindow::power_off()    //duplicate of on_power_clicked() but ONLY turns
         ui->sessionLogsView->setDisabled(true);
         ui->newSessionView->setDisabled(true);
         ui->menu->setDisabled(true);
+        ui->sessionBar->setValue(0);
+        ui->sessionTimer->setNum(29);
+        device->stopSesh();
         checked_power = false;
         std::cout << "checked power is now false" << std::endl;
 }
@@ -146,22 +122,26 @@ void MainWindow::on_newSession_clicked()
     ui->menuView->setDisabled(true);
     ui->timeAndDateView->setDisabled(true);
     ui->sessionLogsView->setDisabled(true);
-    ui->menu->setDisabled(true);
-    //ui->play->setDisabled(true);
 
-    //TODO: reset timer and progress bar
-
-    //instruct user to get headset and connect. Allow user to press start once connection is logged
-
-
-    // start a new session on the device
-    device->beginSesh();
-
+    if (!device->hasContact) {
+        ui->play->setDisabled(true);
+        //instruct user to get headset and connect. Allow user to press start once connection is logged
+        std::cout << "connect your headset to start" << std::endl;
+    }
 }
 
 
 void MainWindow::on_sessionLogs_clicked()
 {
+    QVector<QString> logList = device->readSessionHistory();
+    QStringList dateList;
+    for (const QString& element : logList) {
+        QStringList parts = element.split(';');
+        if (parts.size() > 0) {
+            QString date = parts.at(0).trimmed();
+            dateList.append(date);
+        }
+    }
     //switch to session logs device view
     ui->sessionLogsView->setEnabled(true);
     ui->menuView->setDisabled(true);
@@ -169,7 +149,10 @@ void MainWindow::on_sessionLogs_clicked()
     ui->newSessionView->setDisabled(true);
 
     //display logs, allow scrolling through the logs
-    ui->sessionsLogWidget->addItems(datesAndTimes);
+    ui->sessionsLogWidget->blockSignals(true);
+    ui->sessionsLogWidget->clear();
+    ui->sessionsLogWidget->blockSignals(false);
+    ui->sessionsLogWidget->addItems(dateList);
 }
 
 
@@ -192,7 +175,7 @@ void MainWindow::on_play_clicked()
         std::cout << "play\nchecked play is now false" << std::endl;
     }
     else {
-        //TODO: play session UI
+        ui->menu->setDisabled(true);
         device->playSesh();    // set button ready to pause when next clicked
         std::cout << "checked play is now true" << std::endl;
     }
@@ -221,19 +204,35 @@ void MainWindow::on_submitTime_clicked()
 
 void MainWindow::on_connectPc_clicked()
 {
+
     //default state: false (not connected to PC)
     if (checked_connectPC) {
         //disconnect from PC
+        ui->ComputerView->setDisabled(true);
+        ui->logList->blockSignals(true);
+        ui->logList->clear();
+        ui->logList->blockSignals(false);
         checked_connectPC = false;  // set button ready to disconnect when next clicked
         std::cout << "checked connect pc is now false\n ready to disconnect" << std::endl;
     }
     else {
+        QVector<QString> logs = device->readSessionHistory();
+        QStringList dateList;
+        for (const QString& element : logs) {
+            QStringList parts = element.split(';');
+            if (parts.size() > 0) {
+                QString date = parts.at(0).trimmed();
+                dateList.append(date);
+            }
+        }
         //connect to PC
         ui->ComputerView->setEnabled(true);
 
         //dummy list of log dates and times
-
-        ui->logList->addItems(datesAndTimes);   //add list to dropdown
+        ui->logList->blockSignals(true);
+        ui->logList->clear();
+        ui->logList->blockSignals(false);
+        ui->logList->addItems(dateList);   //add list to dropdown
 
         checked_connectPC = true;   // set button ready to connect when next clicked
         std::cout << "checked connect pc is now true \n ready to connect" << std::endl;
@@ -261,17 +260,38 @@ void MainWindow::on_noBattery_clicked()
     device->setBattery(0);  //set battery value
 }
 
+void MainWindow::updateBattery(int batteryLevel)    //would be called from Device class to update battery value
+{
+    ui->battery->setValue(batteryLevel);   //set UI battery level
+}
+
 
 void MainWindow::on_contact_clicked()
 {
     if (checked_headsetContact) {
+        // Stop signal generation and is no longer in contact
+        device->stopContact();
+
+        //set red and blue indicators
+        //background-color: rgb(x, y, z);
+
         checked_headsetContact = false;  // set button ready to connect when next clicked
         std::cout << "checked headset contact is now false\n ready to disconnect" << std::endl;
     }
     else {
+        // clear the signal plot first
+        clearGraph();
+
+        //set red and blue indicators
+        //background-color: rgb(x, y, z);
+
         // Calling generate signal function in EEGHeadset to test
         device->initiateContact();
-        checked_headsetContact = false; // set button ready to disconnect when next clicked
+        if (ui->newSessionView->isEnabled()) {
+            // enable play button
+            ui->play->setEnabled(true);
+        }
+        checked_headsetContact = true; // set button ready to disconnect when next clicked
         std::cout << "checked headset contact is now true\n ready to connect" << std::endl;
     }
 
@@ -297,7 +317,7 @@ void MainWindow::plotEEGSignal(double value)
     qreal sampleRate = SAMPLING_RATE;
     plotTime += 1.0 / sampleRate;
 
-    //axisX->setRange(0, plotTime);
+    axisX->setRange(0, plotTime);
 }
 
 void MainWindow::updateSiteToPlot(int index)
@@ -309,8 +329,6 @@ void MainWindow::updateSiteToPlot(int index)
         // reset time when switching sites
         plotTime = 0.0;
 
-        disconnect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
-
         connect(currSite, &EEGSite::signalGenerated, this, &MainWindow::plotEEGSignal);
         series->clear();
     }
@@ -318,16 +336,55 @@ void MainWindow::updateSiteToPlot(int index)
 
 void MainWindow::clearGraph()
 {
+    // reset time
+    plotTime = 0.0;
+
     series->clear();
 }
 
 
-void MainWindow::on_logList_currentIndexChanged(const QString &arg1)
+void MainWindow::on_logList_currentIndexChanged(int index)
 {
-    ui->logView->setText(arg1);
+    QVector<QString> logList = device->readSessionHistory();
+    QStringList list = QStringList::fromVector(logList);
+
+    QStringList parts = logList[index].split(';');
+    QString date = parts.at(0).trimmed();
+    QString beforeBaseline = parts.at(1).trimmed();
+    QString afterBaseline = parts.at(2).trimmed();
+
+    QString displayText = "Date + time: "+ date + "\nBaseline before treatment: " + beforeBaseline + "\nBaseline after treatment: " + afterBaseline;
+
+    ui->logView->setText(displayText);
 }
 
 void MainWindow::session_ended() {
     ui->menu->setEnabled(true);
     on_menu_clicked();
+}
+
+void MainWindow::updateLight(Device::LightColor color, bool isOn) {
+    QPlainTextEdit* curColor;
+    QPlainTextEdit* allColors[] = {ui->redButton, ui->blueButton, ui->greenButton};
+
+    for(QPlainTextEdit* e : allColors) {
+        e->setStyleSheet("background-color: White;");
+    }
+
+    if(!isOn)
+        return;
+
+    switch(color) {
+    case Device::BLUE:
+        ui->blueButton->setStyleSheet("background-color: Blue");
+        break;
+    case Device::RED:
+        ui->redButton->setStyleSheet("background-color: Red");
+        break;
+    case Device::GREEN:
+        ui->greenButton->setStyleSheet("background-color: Green");
+        break;
+    default:
+        break;
+    }
 }
