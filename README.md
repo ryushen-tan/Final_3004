@@ -29,6 +29,11 @@
     * Design & Prototyping
 * TA: Anjali
 
+## How to run the simulation!
+Export github as zip
+Install QChart (using command: 'sudo apt install libqt5charts5-dev')
+Run Final_3004.pro in Qt
+
 ## File Organization
 
 . Final_3004.pro\
