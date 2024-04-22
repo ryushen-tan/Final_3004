@@ -119,7 +119,6 @@ void Device::stopContact()
         // Start 5 second timer and if there is still no contact, stop the session
         QTimer::singleShot(5000, this, [this]() {
             if(!hasContact) {
-                mainWindow->on_stop_clicked();
                 mainWindow->on_power_clicked();
             }
         });
@@ -205,7 +204,6 @@ void Device::endSesh() {
 
 void Device::turnOffDevice()    // turning off device function: update battery value in file from variable - disable device view only
 {
-    //TODO: update battery value in file from variable
     mainWindow->power_off();
 }
 
@@ -313,7 +311,7 @@ void Device::applyTreatment()
 }
 
 void Device::flashLight() {
-    if (!powerStatus) {return;}
+//    if (!powerStatus) {return;}
     if(hasContact) {
         mainWindow->updateLight(BLUE, true);
     } else if (currentSession) {

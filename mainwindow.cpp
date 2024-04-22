@@ -72,7 +72,8 @@ void MainWindow::on_power_clicked()
 
     //checked default state: false
     if (checked_power) {
-        power_off();
+        device->powerButton();
+        //power_off();
     }
     else {
         if (ui->battery->value() > 0)
@@ -100,7 +101,7 @@ void MainWindow::power_off()    //ONLY turns everything off
         ui->menu->setDisabled(true);
         ui->sessionBar->setValue(0);
         ui->sessionTimer->setNum(29);
-        device->powerButton();
+        //device->powerButton();
         checked_power = false;
         std::cout << "checked power is now false" << std::endl;
 }
