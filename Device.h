@@ -32,8 +32,7 @@ public:
     Device(MainWindow*, QObject* parent = nullptr);
     ~Device();
 
-    QTimer* timer;
-    QTimer* lightTimer;
+
     QDateTime currTime;
   
     QVector<SessionInfo*> savedSessions;
@@ -85,6 +84,9 @@ private:
     int roundTimer;
     int roundNumber;
     double treatmentOffset;
+
+    QTimer* timer;
+    QTimer* lightTimer;
 
     // Therapy Process Functions
     double calculateOverallBaseline();
