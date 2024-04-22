@@ -83,6 +83,7 @@ void MainWindow::on_power_clicked()
             ui->sessionLogsView->setDisabled(true);
             ui->newSessionView->setDisabled(true);
             ui->menu->setEnabled(true);
+            device->powerButton();
             checked_power = true;
             std::cout << "checked power is now true" << std::endl;
         }
@@ -99,7 +100,7 @@ void MainWindow::power_off()    //ONLY turns everything off
         ui->menu->setDisabled(true);
         ui->sessionBar->setValue(0);
         ui->sessionTimer->setNum(29);
-        device->stopSesh();
+        device->powerButton();
         checked_power = false;
         std::cout << "checked power is now false" << std::endl;
 }
@@ -367,6 +368,9 @@ void MainWindow::updateLight(Device::LightColor color, bool isOn) {
     QPlainTextEdit* allColors[] = {ui->redButton, ui->greenButton};
 
     for(QPlainTextEdit* e : allColors) {
+        ui->blueButton->blockSignals(true);
+        ui->greenButton->blockSignals(true);
+        ui->redButton->blockSignals(true);
         e->setStyleSheet("background-color: White;");
     }
 

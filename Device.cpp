@@ -63,9 +63,9 @@ void Device::powerButton()
         if (batteryLevel > 0) {
             powerStatus = true;
         }
-        std::cout << "ATTENTION: no power! Device cannot power on...\n" << std::endl;
-        // turning on
-        //print variables to show status? - not needed for now
+        else {
+            std::cout << "ATTENTION: no power! Device cannot power on...\n" << std::endl;
+        }
     }
 
 }
@@ -311,13 +311,17 @@ void Device::applyTreatment()
 }
 
 void Device::flashLight() {
+    if (!powerStatus) {return;}
     if(hasContact) {
         mainWindow->updateLight(BLUE, true);
-    } else {
+    } else if (currentSession) {
         mainWindow->updateLight(BLUE, false);
         mainWindow->updateLight(RED, isOn);
         isOn = !isOn;
         cout << "Beep!" << endl;
+    }
+    else {
+        mainWindow->updateLight(BLUE, false);
     }
 
     if(lightColor == GREEN && currentSession && hasContact) {
