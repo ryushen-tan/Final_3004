@@ -13,7 +13,7 @@ EEGSite::EEGSite(QObject* parent) : QObject(parent), dominantFrequency(0.0), off
 
 void EEGSite::startApplyingOffset(double offset)
 {
-    qDebug() << "Applying offset to the dominant frequency: " << dominantFrequency << " by " << dominantFrequency << "Hz + " << offset << "Hz";
+    qDebug() << "Delivering 1 second feedback by applying offset to the dominant frequency of" << dominantFrequency << "Hz by" << dominantFrequency << "Hz +" << offset << "Hz";
 
     this->offset = offset;
 
@@ -34,19 +34,16 @@ void EEGSite::stopApplyingOffset()
 void EEGSite::generateSignal()
 {
     // Generate random amplitudes for each band
-    double deltaAmp = getRandomInRange(1.0, 5.0);
-    double thetaAmp = getRandomInRange(1.0, 5.0);
-    double alphaAmp = getRandomInRange(1.0, 5.0);
-    double betaAmp = getRandomInRange(1.0, 5.0);
+    double deltaAmp = getRandomInRange(1.0, 4.0);
+    double thetaAmp = getRandomInRange(1.0, 4.0);
+    double alphaAmp = getRandomInRange(1.0, 4.0);
+    double betaAmp = getRandomInRange(1.0, 4.0);
 
     // Generate random frequencies for each band
     double deltaFreq = getRandomInRange(1.0, 4.0);
     double thetaFreq = getRandomInRange(4.0, 8.0);
     double alphaFreq = getRandomInRange(8.0, 12.0);
     double betaFreq = getRandomInRange(12.0, 30.0);
-
-    // Calculate and store the new dominant frequency
-    dominantFrequency = calculateDominantFrequency();
 
     // Configure the SignalGenerator's frequencies
     signalGenerator->setDeltaFrequency(deltaFreq);
@@ -59,6 +56,9 @@ void EEGSite::generateSignal()
     signalGenerator->setThetaAmplitude(thetaAmp);
     signalGenerator->setAlphaAmplitude(alphaAmp);
     signalGenerator->setBetaAmplitude(betaAmp);
+
+    // Calculate and store the new dominant frequency
+    dominantFrequency = calculateDominantFrequency();
 
     // Start generating signals
     signalGenerator->start();

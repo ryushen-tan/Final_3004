@@ -44,7 +44,6 @@ public:
     LightColor lightColor;
     bool isOn;
 
-
     int batteryLevel;
     bool powerStatus;
     bool hasContact;
@@ -75,8 +74,8 @@ public:
     void saveSession(QDateTime date, float baselineBefore, float baselineAfter);
 
 private slots:
-    void updateRound(); // Connected to QTimer
-    void flashLight(); // Connected to another QTimer
+    void updateRound(); // Connected to QTimer for running the session
+    void flashLight(); // Connected to another QTimer for checking the lights
 
 private:
     QVector<QString> currSeshInfo;
