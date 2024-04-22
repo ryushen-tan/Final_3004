@@ -91,7 +91,6 @@ void Device::setBattery(int charge)
         //low power messfage... each session requires around 30% battery, so if there's less than 30% battery, the device will let the user know it needs to be charged
         std::cout << "ATTENTION: low power! Please charge device. 30% minimum needed for a new session.\n" << std::endl;
     }
-    std::cout << "battery is set to " << batteryLevel << "\n" << std::endl;
     mainWindow->updateBattery(batteryLevel);
 }
 
@@ -152,6 +151,7 @@ void Device::updateRound() {
         if(sessionDuration % ROUND_LEN == 0) {
             roundTimer = 0;
             roundNumber += 1; // Increment round first
+            std::cout << "ROUND "<< roundNumber <<" OF THERAPY:" << std::endl;
 
             // clear graph so we can see the signal during analysis and treatment
             mainWindow->clearGraph();
@@ -162,12 +162,12 @@ void Device::updateRound() {
 
             // Round 1: calculate and save overall baseline for baselineBefore
             if (roundNumber == 1) {
-                currentSession->baselineBefore = calculateOverallBaseline();
+                currentSession->setBaselineBefore(calculateOverallBaseline());
             }
 
             // Final analysis round: calculate and save overall baseline for baselineAfter during
             if(roundNumber == 5) {
-                currentSession->baselineAfter = calculateOverallBaseline();
+                currentSession->setBaselineAfter(calculateOverallBaseline());
             }
         }
         sessionDuration += 1;
@@ -193,9 +193,9 @@ void Device::updateRound() {
 void Device::endSesh() {
     timer->stop();
     savedSessions.append(currentSession);
-    saveSession(currTime, currentSession->baselineBefore, currentSession->baselineAfter);
-    qDebug() << currentSession->baselineBefore;
-    qDebug() << currentSession->baselineAfter;
+    saveSession(currTime, currentSession->getBaselineBefore(), currentSession->getBaselineAfter());
+    qDebug() << currentSession->getBaselineBefore();
+    qDebug() << currentSession->getBaselineAfter();
 
     currentSession = nullptr;
     isSeshPaused = true;
@@ -291,13 +291,15 @@ QVector<QString> Device::readSessionHistory() {
 }
 
 double Device::calculateOverallBaseline()
-{
+{    
     double baseline = 0.0;
 
     for(int i = 0; i < EEG_SITES; ++i)
     {
         baseline += sites[i]->getDominantFrequency();
     }
+
+    std::cout << "Calculating overall dominant frequency as baseline...\n" << std::endl;
 
     return baseline / EEG_SITES;
 }

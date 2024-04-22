@@ -317,7 +317,9 @@ void MainWindow::plotEEGSignal(double value)
     qreal sampleRate = SAMPLING_RATE;
     plotTime += 1.0 / sampleRate;
 
-    axisX->setRange(0, plotTime);
+    if (plotTime <= 6.0) {
+        axisX->setRange(0, plotTime);
+    }
 }
 
 void MainWindow::updateSiteToPlot(int index)

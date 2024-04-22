@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     Device.cpp \
     EEGSite.cpp \
+    SessionInfo.cpp \
     SignalGenerator.cpp \
     main.cpp \
     mainwindow.cpp
